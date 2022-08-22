@@ -1,0 +1,94 @@
+.payment {
+	flex: 1 1 auto;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	&__cont {
+		width: 100%;
+		height: 100%;
+	}
+	&__container {
+		//flex: 1 1 auto;
+		//width: 480px;
+		//min-width: 320px;
+	}
+
+	&__block {
+	}
+
+	&__title {
+		font-weight: 700;
+		font-size: rem(36);
+		margin-bottom: rem(30);
+	}
+
+	&__info {
+		padding: rem(30);
+		border-radius: rem(15);
+		background-color: $cardBackground;
+		position: relative;
+		.discount {
+			top: rem(32);
+		}
+		margin-bottom: rem(30);
+		cursor: default;
+		user-select: none;
+	}
+
+	&__currency {
+		display: flex;
+		align-items: center;
+		font-weight: 700;
+		font-size: rem(24);
+		gap: rem(10);
+		margin-bottom: rem(30);
+	}
+
+	&__initial {
+		color: $selectBackground;
+	}
+
+	&__decided {
+		color: $mainColor;
+	}
+
+	&__mon {
+		font-size: rem(40);
+		color: $boldCardText;
+		margin-bottom: rem(4);
+		//font-weight: 600;
+	}
+
+	&__mon-text {
+		color: $boldCardText;
+	}
+	&__checkbox {
+		//margin-bottom: rem(30);
+		padding: 10px 10px 10px 10px;
+		margin-bottom: 50px;
+		background: rgba($mainColor, 0.1);
+		border-radius: rem(5) rem(5) 0 0;
+	}
+
+	&__row {
+		padding: 10px;
+		background: rgba($mainColor, 0.1);
+		border-radius: rem(5);
+		flex-direction: column;
+		.btn {
+			width: 100%;
+		}
+		&:not(:last-child) {
+			margin-bottom: rem(40);
+		}
+	}
+
+	&__bottom {
+
+	}
+	&__pay {
+		&:disabled {
+			background-color: rgba($payBtn, 0.7);
+		}
+	}
+}

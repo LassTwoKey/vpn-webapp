@@ -1,0 +1,32 @@
+//====================================================================================================
+.controls {
+	width: 100%;
+	&__container {
+		overflow: auto;
+		gap: rem(10);
+		display: flex;
+		min-height: 80px;
+		align-items: center;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: rem(10);
+		font-size: rem(16);
+		@media (any-hover: hover){
+			&:hover{
+				cursor: pointer;
+			}
+		}
+		&.hidden {
+			display: none;
+		}
+		&.only-payment {
+			span {
+				display: none;
+			}
+		}
+	}
+}
+//====================================================================================================

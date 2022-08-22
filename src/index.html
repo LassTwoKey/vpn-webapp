@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+@@include('html/_head.htm',{
+"title":"Тарифы"
+})
+
+<body>
+	<div class="wrapper">
+		<nav class="controls">
+			<ul class="controls__container content__container">
+				<li class="controls__item btn-tariffs">Тарифы</li>
+				<li class="controls__item btn-devices hidden"><span>></span>Устройства</li>
+				<li class="controls__item btn-payment hidden"><span>></span>Оплата</li>
+			</ul>
+		</nav>
+		<div class="main">
+			<div class="tariffs">
+				<div class="tariffs__container content__container">
+					<div data-spollers data-spoller-tariffs data-spollers-speed="300" class="spollers tariffs__block">
+					</div>
+				</div>
+			</div>
+			<div class="devices hidden">
+				<div class="devices__container content__container">
+					<div data-spollers data-spoller-devices data-spollers-speed="300" class="spollers devices__block"></div>
+					<div class="devices__add"></div>
+				</div>
+				<button data-checkout class="btn green end">К оплате</button>
+			</div>
+			<div class="payment hidden">
+				<div class="payment__container content__container">
+					<div class="payment__block">
+						<h2 class="payment__title">Доступ к VPN на 6 месяцев.</h2>
+						<div class="payment__info-content">
+
+						</div>
+						<div class="checkbox payment__checkbox">
+							<input id="c_1" data-error="Ошибка" class="checkbox__input" type="checkbox" value="access"
+								name="form[]">
+							<label for="c_1" class="checkbox__label">
+								<span class="checkbox__text">
+									Я согласен с условиями оферты рекуррентных платежей и политики обработки
+									персональных данных
+								</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<button data-pay class="btn green end pay">
+					<a
+						href="https://pay.freekassa.ru/?m=21411&oa=1000&currency=RUB&o=123&s=5571cc611760840c125878986150f68b">
+						<span>Оплатить</span>
+					</a>
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- <div data-tabs class="tabs">
+			<nav data-tabs-titles class="tabs__navigation tabs-navigation__container">
+				<button type="button" id="tar" class="tabs__title _tab-active">Тарифы</button>
+				<button type="button" id="dev" class="tabs__title hidden"><span>></span>Устройства</button>
+				<button type="button" id="pay" class="tabs__title hidden"><span>></span>Оплата</button>
+			</nav>
+			<div data-tabs-body class="tabs__content">
+				<div class="tabs__body">
+					<div class="main tarif tariffs">
+						<div class="tariffs__container">
+							<div data-spollers data-spollers-speed="300" class="spollers tariffs__block">
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tabs__body">
+					<div class="main option">
+						<div class="option__cont">
+							<div class="option__container">
+								<div data-spollers data-spollers-speed="300" class="spollers option__block">
+									<div class="option__item">
+										<button type="button" data-spoller class="option__title spollers__title">Устройство
+											1</button>
+										<div class="spollers__body">
+											<div class="content-device">
+												<select name="form[]" data-scroll="500" class="form">
+													<option value="1" selected>Выберите страну</option>
+													<option value="2">Russia</option>
+													<option value="3">Ukraine</option>
+													<option value="4">Belarus</option>
+													<option value="5">Afghanistan</option>
+													<option value="6">Belgium</option>
+													<option value="7">Brunei</option>
+													<option value="8">Egypt</option>
+													<option value="9">Germany</option>
+													<option value="10">Iraq</option>
+													<option value="11">Kazakhstan</option>
+													<option value="12">Japan</option>
+													<option value="12">Israel</option>
+													<option value="14">Italy</option>
+													<option value="15">Monaco</option>
+													<option value="16">New Zealand</option>
+
+												</select>
+												<div class="options content-device__options">
+													<div class="options__item">
+														<input hidden id="o_1_1" class="options__input" checked type="radio"
+															value="r_1_1" name="option1">
+														<label for="o_1_1" class="options__label"><span
+																class="options__text">Wireguard</span></label>
+													</div>
+													<div class="options__item">
+														<input hidden id="o_1_2" class="options__input" type="radio" value="r_1_1"
+															name="option1">
+														<label for="o_1_2" class="options__label"><span
+																class="options__text">OpenVPN</span></label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="option__item">
+										<button type="button" data-spoller class="option__title spollers__title">Устройство
+											2</button>
+										<div class="spollers__body">
+											<div class="content-device">
+												<select name="form[]" data-scroll="500" class="form">
+													<option value="1" selected>Выберите страну</option>
+													<option value="2">Russia</option>
+													<option value="3">Ukraine</option>
+													<option value="4">Belarus</option>
+													<option value="5">Afghanistan</option>
+													<option value="6">Belgium</option>
+													<option value="7">Brunei</option>
+													<option value="8">Egypt</option>
+													<option value="9">Germany</option>
+													<option value="10">Iraq</option>
+													<option value="11">Kazakhstan</option>
+													<option value="12">Japan</option>
+													<option value="12">Israel</option>
+													<option value="14">Italy</option>
+													<option value="15">Monaco</option>
+													<option value="16">New Zealand</option>
+
+												</select>
+												<div class="options content-device__options">
+													<div class="options__item">
+														<input hidden id="o_2_1" class="options__input" checked type="radio"
+															value="r_2_1" name="option2">
+														<label for="o_2_1" class="options__label"><span
+																class="options__text">Wireguard</span></label>
+													</div>
+													<div class="options__item">
+														<input hidden id="o_2_2" class="options__input" type="radio" value="r_2_1"
+															name="option2">
+														<label for="o_2_2" class="options__label"><span
+																class="options__text">OpenVPN</span></label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="option__item">
+										<button type="button" data-spoller class="option__title spollers__title">Устройство
+											3</button>
+										<div class="spollers__body">
+											<div class="content-device">
+												<select name="form[]" data-scroll="500" class="form">
+													<option value="1" selected>Выберите страну</option>
+													<option value="2">Russia</option>
+													<option value="3">Ukraine</option>
+													<option value="4">Belarus</option>
+													<option value="5">Afghanistan</option>
+													<option value="6">Belgium</option>
+													<option value="7">Brunei</option>
+													<option value="8">Egypt</option>
+													<option value="9">Germany</option>
+													<option value="10">Iraq</option>
+													<option value="11">Kazakhstan</option>
+													<option value="12">Japan</option>
+													<option value="12">Israel</option>
+													<option value="14">Italy</option>
+													<option value="15">Monaco</option>
+													<option value="16">New Zealand</option>
+
+												</select>
+												<div class="options content-device__options">
+													<div class="options__item">
+														<input hidden id="o_3_1" class="options__input" checked type="radio"
+															value="r_3_1" name="option3">
+														<label for="o_3_1" class="options__label"><span
+																class="options__text">Wireguard</span></label>
+													</div>
+													<div class="options__item">
+														<input hidden id="o_3_2" class="options__input" type="radio" value="r_3_2"
+															name="option3">
+														<label for="o_3_2" class="options__label"><span
+																class="options__text">OpenVPN</span></label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="option__add">
+									<button data-add-device class="option__add-button">
+										<span class="">+</span>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="option__cont">
+							<div class="option__container">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tabs__body">
+					<div class="main payment">
+						<div class="payment__cont">
+							<div class="payment__container">
+								<div class="payment__block">
+									<h2 class="payment__title">Доступ к VPN на 6 месяцев.</h2>
+									<div class="payment__info">
+										<div class="payment__currency">
+											<div class="payment__initial">€38.73</div>
+											<span>~</span>
+											<div class="payment__decided">2385.25₽</div>
+										</div>
+										<div class="payment__mon">6</div>
+										<div class="payment__mon-text">месяцев подписки на VPN</div>
+										<span class="discount">20%</span>
+									</div>
+									<div class="checkbox payment__checkbox">
+										<input id="c_1" data-error="Ошибка" class="checkbox__input" type="checkbox" value="access"
+											name="form[]">
+										<label for="c_1" class="checkbox__label">
+											<span class="checkbox__text">
+												Я согласен с условиями оферты рекуррентных платежей и политики обработки
+												персональных данных
+											</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a href="#" id="toPaymentMethod" class="option__payment btn green hidden">
+			<span>Перейти к оплате</span>
+		</a>
+		<button id="toPay" class="option__payment btn green pay hidden unchecked">
+			<a href="https://pay.freekassa.ru/?m=21411&oa=1000&currency=RUB&o=123&s=5571cc611760840c125878986150f68b">
+				<span>К оплате</span>
+			</a>
+		</button> -->
+	</div>
+	<div class="preloader">
+		<div class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	@@include('html/_js.htm',{})
+</body>
+
+</html>

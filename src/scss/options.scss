@@ -1,0 +1,128 @@
+
+.devices {
+	flex: 1 1 auto;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	&__cont {
+		width: 100%;
+		height: 100%;
+	}
+	&__container {
+	}
+	&__block {
+		margin-bottom: rem(20);
+	}
+
+	&__dropdown {
+		&.closed {
+			.devices__dropdown-list {
+				height: 0;
+			}
+		}
+	}
+
+	&__dropdown-title {
+		padding: 10px;
+		background: rgba($mainColor, 0.1);
+		border-radius: rem(5);
+		border-radius: 4px;
+		border: 1px solid rgba($mainColor, 0.2);
+		cursor: default;
+		user-select: none;
+		font-size: rem(18);
+		text-align: center;
+		@media (any-hover: hover){
+			cursor: pointer;
+		}
+	}
+
+	&__dropdown-list {
+		height: 160px;
+		transition: 0.2s ease-in-out;
+		background-color: #fff;
+		color: $selectBackground;
+		overflow-y: auto;
+
+	}
+	&__dropdown-item {
+		padding: rem(10);
+		height: rem(40);
+		display: flex;
+		align-items: center;
+		cursor: default;
+		user-select: none;
+		@media (any-hover: hover){
+			cursor: pointer;
+		}
+		&:hover {
+			background: rgba($selectBackground, 0.2);
+		}
+		
+	}
+
+	&__item {
+		padding: 10px;
+		background: rgba($mainColor, 0.1);
+		border-radius: rem(5);
+	}
+
+	&__title {
+		background-color:$additionMainBackground;
+	}
+	&__body {
+		padding-top: rem(40);
+		width: 100%;
+		@media (max-width:$tablet){
+			padding-top: rem(20);
+		}
+	}
+	&__options {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		padding: rem(30) 0 rem(5) 0;
+		@media (min-width:em(500)){
+			gap:rem(50);
+		}
+		@media (min-width:em(400)){
+			gap:rem(40);
+		}
+		@media (min-width:em(0)){
+			gap:rem(20);
+		}
+	}
+	&__add {
+		flex: 1 1 auto;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 80px;
+		@media (max-width:$mobile){
+			margin-bottom: 40px;
+		}
+	}
+
+	&__add-button {
+		width: 78px;
+		height: 39px;
+		background-color: $selectBackground;
+		cursor: default;
+		user-select: none;
+		border-radius: rem(4);
+		border: 1px solid #fff;
+		@media (any-hover: hover){
+			cursor: pointer;
+		}
+		color: #fff;
+		font-size: rem(32);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+.checkbox {
+	position: relative;
+	cursor: default;
+	user-select: none;
+	@media (any-hover: hover){
+		cursor: pointer;
+	}
+	&:not(:last-child) {
+		margin-bottom: em(5);
+	}
+	// .checkbox__input
+	&__input {
+		position: absolute;
+		width: 0;
+		height: 0;
+		opacity: 0;
+		//transition: 0.2s ease;
+		&:focus + .checkbox__label:after {
+			box-shadow: 0 0 5px rgba($boldCardText, 0.7);
+			//transition: 0.1s ease;
+		}
+		&:checked + .checkbox__label:after {
+			background: $mainBackground;
+			//transition: 0.1s ease;
+			//transform: scale(0.7);
+		}
+		&:checked + .checkbox__label:before {
+			visibility: visible;
+			opacity: 1;
+			
+		} 
+	}
+	// .checkbox__label
+	&__label {
+		//cursor: pointer;
+		display: inline-flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		position: relative;
+		gap: 10px;
+		&:after {
+			content: "";
+			align-self: flex-start;
+			flex: 0 0 20px;
+			width: 20px;
+			height: 20px;
+			border: 1px solid #a7a9ac;
+		}
+		@extend %ic;
+		@extend ._icon-check;
+		&:before {
+			font-size: rem(12);
+			position: absolute;
+			left:4px;
+			top:4px;
+			visibility: hidden;
+			opacity: 0;
+			color: #fff;
+			//transition: 0.2s ease;
+		}
+	}
+	// .checkbox__text
+	&__text {
+		font-family: "Montserrat";
+		line-height: 1.3;
+	}
+}

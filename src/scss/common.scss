@@ -1,0 +1,151 @@
+// Заголовки, общие БЄМ блоки и проче...
+.preloader {
+	opacity: 1;
+	visibility: visible;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: $background;
+	z-index: 999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.lds-facebook {
+		display: inline-block;
+		position: relative;
+		width: 80px;
+		height: 80px;
+	}
+	.lds-facebook div {
+		display: inline-block;
+		position: absolute;
+		left: 8px;
+		width: 16px;
+		background: $mainBackground;
+		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+	}
+	.lds-facebook div:nth-child(1) {
+		left: 8px;
+		animation-delay: -0.24s;
+	}
+	.lds-facebook div:nth-child(2) {
+		left: 32px;
+		animation-delay: -0.12s;
+	}
+	.lds-facebook div:nth-child(3) {
+		left: 56px;
+		animation-delay: 0;
+	}
+	@keyframes lds-facebook {
+		0% {
+		top: 8px;
+		height: 64px;
+		}
+		50%, 100% {
+		top: 24px;
+		height: 32px;
+		}
+	}
+	.loaded & {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+.tariffs.hidden, .devices.hidden, .payment.hidden{
+	display: none;
+}
+.discount {
+	position: absolute;
+	width: rem(60);
+	height: rem(25);
+	color: #fff;
+	right: - rem(10);
+	bottom: rem(10);
+	background-color: $additionMainBackground;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: rem(4);
+	z-index: 2;
+}
+.btn {
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 49px;
+	padding: 0 rem(25);
+	font-size: rem(22);
+	border-radius: rem(4);
+	cursor: default;
+	user-select: none;
+	@media (any-hover: hover){
+		cursor: pointer;
+	}
+	width: 100%;
+	transition: 0.2s ease;
+	//position: relative;
+	width: 100%;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	a {
+		width: 100%;
+		padding: 0 rem(25);
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&.hidden {
+		display: none;
+	}
+	&.green {
+		background-color: $payBtn;
+		border-radius: rem(4) rem(4) 0 0;
+	}
+	&.pay {
+		padding: 0;
+		&:after {
+			position: absolute;
+			content: "";
+			width: 100%;
+			height: 100%;
+			left:0;
+			top:0;
+			z-index: 2;
+			background-color: rgba(#077648b0, 0.4);
+		}
+	}
+	&.checked {
+		background-color: $payBtn;
+		&:after {
+			display: none;
+		}
+	}
+}
+.control-line {
+	display: flex;
+	justify-content: space-between;
+	gap: 30px;
+	justify-content: end;
+}
+.content {
+	&__container {
+		flex: 1 1 auto;
+		width: 480px;
+		//min-width: 320px;
+		@media (max-width:em(510)){
+			width: 93%;
+			//padding: 0 15px;
+		}
+	}
+}
+
+
+// =======================================
+

@@ -1,0 +1,62 @@
+// Блок со спойлерами
+.spollers {
+	display: grid;
+	gap: rem(40);
+	@media (max-width:$mobile){
+		gap: rem(20);
+	}
+}
+// Спойлер
+.spollers__item {
+	//font-size: rem(20);
+}
+.spollers__title {
+	font-size: rem(24);
+	width: 100%;
+	text-align: left;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	padding: rem(10) rem(15);
+	border-radius: rem(5);
+	position: relative;
+	font-weight: 700;
+	cursor: default;
+	user-select: none;
+	@media (any-hover: hover){
+		cursor: pointer;
+	}
+	._spoller-init & {
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			background-color: #fff;
+			height: 2px;
+			width: 15px;
+			transition: transform 0.5s ease 0s;
+		}
+		&::before {
+			transform: translate(-75%, -50%) rotate(40deg);
+		}
+		&::after {
+			transform: translate(0, -50%) rotate(-40deg);
+		}
+		&._spoller-active {
+			&::before {
+				transform: translateX(-75%) rotate(-40deg);
+			}
+			&::after {
+				transform: rotate(40deg);
+			}
+		}
+	}
+}
+// Контент спойлера
+.spollers__body {
+	//padding: rem(20);
+	//border-radius: rem(10);
+	//border: 1px solid #eee;
+}
