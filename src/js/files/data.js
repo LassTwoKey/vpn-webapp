@@ -169,7 +169,7 @@ const VpnTariffPage = {
 
 const allowDeviceToAdd = 3; // ограничения при выборе тарифов на странице tariffs, когда есть +
 
-const limitDevicesSpoller = 5; // ограничения при добавлении девайсов
+const limitDevicesSpoller = 5; // ограничения при добавлении девайсов 
 
 const VpnInProcess = {
 	protocols: PROTOCOL,
