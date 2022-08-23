@@ -14,6 +14,10 @@
 	}
 }
 .info-tariffs {
+	padding-top: rem(40);
+	@media (max-width:$tablet){
+		padding-top: rem(20);
+	}
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr;

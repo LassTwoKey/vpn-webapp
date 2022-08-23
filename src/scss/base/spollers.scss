@@ -57,9 +57,4 @@
 }
 // Контент спойлера
 .spollers__body {
-	padding-top: rem(40);
-	width: 100%;
-	@media (max-width:$tablet){
-		padding-top: rem(20);
-	}
 }

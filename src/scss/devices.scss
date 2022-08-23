@@ -17,6 +17,10 @@
 				height: 0;
 			}
 		}
+		padding-top: rem(40);
+		@media (max-width:$tablet){
+			padding-top: rem(20);
+		}
 	}
 	&__dropdown-title {
 		padding: 10px;
