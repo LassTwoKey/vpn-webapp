@@ -65,6 +65,10 @@
 		padding: 10px;
 		background: rgba($mainColor, 0.1);
 		border-radius: rem(5);
+		&.empty {
+			//border: 2px solid red;
+			box-shadow: 0 0 4px red;
+		}
 	}
 
 	&__title {

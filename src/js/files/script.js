@@ -2,164 +2,164 @@ import * as vpnFunctions from "./functions.js";
 vpnFunctions.addLoadedClass();
 vpnFunctions.spollers();
 
-export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) => {
-	// const GROUPED_BY_MONTH_DURATION = [
-	// 	{
-	// 		month_duration: 12,
-	// 		tariffs: [
-	// 			{
-	// 				month_duration: 12,
-	// 				devices_number: 1,
-	// 				result_price: 1500,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 			{
-	// 				month_duration: 12,
-	// 				devices_number: 2,
-	// 				result_price: 2000,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 		]
-	// 	},
-	// 	{
-	// 		month_duration: 6,
-	// 		tariffs: [
-	// 			{
-	// 				month_duration: 6,
-	// 				devices_number: 1,
-	// 				result_price: 1500,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 			{
-	// 				month_duration: 6,
-	// 				devices_number: 2,
-	// 				result_price: 1700,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 			{
-	// 				month_duration: 6,
-	// 				devices_number: 3,
-	// 				result_price: 1500,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 			{
-	// 				month_duration: 6,
-	// 				devices_number: 4,
-	// 				result_price: 2500,
-	// 				currency: "RUB",
-	// 				discount: 20
-	// 			},
-	// 		]
-	// 	},
-	// 	{
-	// 		month_duration: 3,
-	// 		tariffs: [
-	// 			{
-	// 				month_duration: 3,
-	// 				devices_number: 1,
-	// 				result_price: 1500,
-	// 				currency: "RUB",
-	// 				discount: 43
-	// 			},
-	// 			{
-	// 				month_duration: 3,
-	// 				devices_number: 2,
-	// 				result_price: 2020,
-	// 				currency: "RUB",
-	// 				discount: 23
-	// 			},
-	// 			{
-	// 				month_duration: 3,
-	// 				devices_number: 3,
-	// 				result_price: 2489,
-	// 				currency: "RUB",
-	// 				discount: 10
-	// 			},
-	// 			{
-	// 				month_duration: 3,
-	// 				devices_number: 4,
-	// 				result_price: 3000,
-	// 				currency: "RUB",
-	// 				discount: 73
-	// 			},
-	// 			{
-	// 				month_duration: 3,
-	// 				devices_number: 5,
-	// 				result_price: 3500,
-	// 				currency: "RUB",
-	// 				discount: 73
-	// 			},
-	// 		]
-	// 	},
-	// ];
+export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS
+	const GROUPED_BY_MONTH_DURATION = [
+		{
+			month_duration: 12,
+			tariffs: [
+				{
+					month_duration: 12,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 12,
+					devices_number: 2,
+					result_price: 2000,
+					currency: "RUB",
+					discount: 20
+				},
+			]
+		},
+		{
+			month_duration: 6,
+			tariffs: [
+				{
+					month_duration: 6,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 2,
+					result_price: 1700,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 3,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 4,
+					result_price: 2500,
+					currency: "RUB",
+					discount: 20
+				},
+			]
+		},
+		{
+			month_duration: 3,
+			tariffs: [
+				{
+					month_duration: 3,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 43
+				},
+				{
+					month_duration: 3,
+					devices_number: 2,
+					result_price: 2020,
+					currency: "RUB",
+					discount: 23
+				},
+				{
+					month_duration: 3,
+					devices_number: 3,
+					result_price: 2489,
+					currency: "RUB",
+					discount: 10
+				},
+				{
+					month_duration: 3,
+					devices_number: 4,
+					result_price: 3000,
+					currency: "RUB",
+					discount: 73
+				},
+				{
+					month_duration: 3,
+					devices_number: 5,
+					result_price: 3500,
+					currency: "RUB",
+					discount: 73
+				},
+			]
+		},
+	];
 
-	// const COUNTRIES = [
-	// 	{
-	// 		country: 'Belarus',
-	// 		id: 'BY',
-	// 		discount: 0
-	// 	},
-	// 	{
-	// 		country: 'Norway',
-	// 		id: 'NW',
-	// 		discount: 56
-	// 	},
-	// 	{
-	// 		country: 'Germany',
-	// 		id: 'GR',
-	// 		discount: 23
-	// 	},
-	// 	{
-	// 		country: 'Russia',
-	// 		id: 'RU',
-	// 		discount: 7
-	// 	},
-	// 	{
-	// 		country: 'USA',
-	// 		id: 'US',
-	// 		discount: 20
-	// 	},
-	// 	{
-	// 		country: 'Belarus',
-	// 		id: 'BY',
-	// 		discount: 0
-	// 	},
-	// 	{
-	// 		country: 'Norway',
-	// 		id: 'NW',
-	// 		discount: 56
-	// 	},
-	// 	{
-	// 		country: 'Germany',
-	// 		id: 'GR',
-	// 		discount: 23
-	// 	},
-	// 	{
-	// 		country: 'Russia',
-	// 		id: 'RU',
-	// 		discount: 7
-	// 	},
-	// 	{
-	// 		country: 'USA',
-	// 		id: 'US',
-	// 		discount: 20
-	// 	},
-	// ];
-	// const PROTOCOLS = [
-	// 	{
-	// 		protocol: "Wiregurad",
-	// 		id: 4
-	// 	},
-	// 	{
-	// 		protocol: "OpenVpn",
-	// 		id: 5
-	// 	},
-	// ];
+	const COUNTRIES = [
+		{
+			country: 'Belarus',
+			id: 'BY',
+			discount: 0
+		},
+		{
+			country: 'Norway',
+			id: 'NW',
+			discount: 56
+		},
+		{
+			country: 'Germany',
+			id: 'GR',
+			discount: 23
+		},
+		{
+			country: 'Russia',
+			id: 'RU',
+			discount: 7
+		},
+		{
+			country: 'USA',
+			id: 'US',
+			discount: 20
+		},
+		{
+			country: 'Belarus',
+			id: 'BY',
+			discount: 0
+		},
+		{
+			country: 'Norway',
+			id: 'NW',
+			discount: 56
+		},
+		{
+			country: 'Germany',
+			id: 'GR',
+			discount: 23
+		},
+		{
+			country: 'Russia',
+			id: 'RU',
+			discount: 7
+		},
+		{
+			country: 'USA',
+			id: 'US',
+			discount: 20
+		},
+	];
+	const PROTOCOLS = [
+		{
+			protocol: "Wiregurad",
+			id: 4
+		},
+		{
+			protocol: "OpenVpn",
+			id: 5
+		},
+	];
 
 	const ExtendVpnselectedTariff = {
 		month_duration: 12,
@@ -184,8 +184,6 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 
 	const allowDeviceToAdd = 4;
 
-	//const limitDevicesSpoller = 4;
-
 	const VpnInProcess = {
 		protocols: PROTOCOLS,
 		countries: COUNTRIES,
@@ -195,9 +193,9 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 		currentPage: VpnTariffPage.SelectTariffPage,
 		selectedTariff: {},
 		isTermsOfRulesAccepted: false,
-		devices: {
-			deviceAmount: 0 || ExtendVpnselectedTariff.devicesNumber,
-		},
+		devices: [
+
+		],
 		pages: {
 			tariffs: document.querySelector('.tariffs'),
 			devices: document.querySelector('.devices'),
@@ -209,7 +207,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			payment: document.querySelector('.btn-payment')
 		},
 		mainButtons: {
-			toСheckout: document.querySelector('[data-checkout]'),
+			toCheckout: document.querySelector('[data-checkout]'),
 			toPay: document.querySelector('[data-pay]')
 		},
 		deviceoptionValues: {
@@ -253,7 +251,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				this.countrols.devices.classList.add('hidden');
 				this.countrols.payment.classList.add('hidden');
 				//========================================
-				this.mainButtons.toСheckout.classList.add('hidden');
+				this.mainButtons.toCheckout.classList.add('hidden');
 				this.mainButtons.toPay.classList.add('hidden');
 				//========================================
 				document.querySelector('.devices__block').innerHTML = "";
@@ -267,7 +265,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				this.countrols.devices.classList.remove('hidden');
 				this.countrols.payment.classList.add('hidden');
 				//========================================
-				this.mainButtons.toСheckout.classList.remove('hidden');
+				this.mainButtons.toCheckout.classList.remove('hidden');
 				this.mainButtons.toPay.classList.add('hidden');
 			}
 			if (page === VpnTariffPage.AcceptVpnCard) {
@@ -279,7 +277,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				this.countrols.devices.classList.remove('hidden');
 				this.countrols.payment.classList.remove('hidden');
 				//========================================
-				this.mainButtons.toСheckout.classList.add('hidden');
+				this.mainButtons.toCheckout.classList.add('hidden');
 				this.mainButtons.toPay.classList.remove('hidden');
 			}
 			// =================================
@@ -298,6 +296,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				this.deviceoptionValues.id = 1;
 				this.deviceoptionValues.nameAttr = 1;
 				this.deviceoptionValues.countryValue = 1;
+				this.devices = [];
 			}
 			this.countrols.devices.onclick = () => {
 				this.currentPage = VpnTariffPage.InputDevices;
@@ -309,11 +308,36 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			}
 		},
 		mainButtonsVpn() {
-			this.mainButtons.toСheckout.onclick = () => {
-				this.currentPage = VpnTariffPage.AcceptVpnCard;
-				this.switchPage(VpnTariffPage.AcceptVpnCard);
-				this.createPaymentSelection();
-				this.accessPayClick();
+			this.mainButtons.toCheckout.onclick = () => {
+
+				const deviceitems = document.querySelectorAll('.devices__item');
+
+				let condition = true;
+
+				function validationCountry() {
+					deviceitems.forEach((device, i) => {
+						if (!device.querySelector('.devices__dropdown-title').getAttribute('value')) {
+							condition = false;
+							device.classList.add('empty');
+						}
+						else {
+							device.classList.remove('empty');
+						}
+					});
+				}
+				validationCountry();
+
+				// ======================
+				if (condition) {
+					this.currentPage = VpnTariffPage.AcceptVpnCard;
+					this.switchPage(VpnTariffPage.AcceptVpnCard);
+					this.createPaymentSelection();
+					this.accessPayClick();
+					this.fillDevices(deviceitems);
+				}
+			}
+			this.mainButtons.toPay.onclick = () => {
+				this.SubmitData();
 			}
 		},
 		//===========
@@ -358,6 +382,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 					monthDurationSpoilerContainer.appendChild(vpnTariff);
 				}
 			}
+			vpnFunctions.spollers();
 		},
 		createVPNTariff(monthDuration, devicesNumber, price, currency, discount) {
 			const vpnTariff = document.createElement("div");
@@ -379,7 +404,6 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 					currency: currency,
 					devicesNumber: devicesNumber
 				}
-				this.devices.deviceAmount = this.selectedTariff.devicesNumber;
 
 				this.currentPage = VpnTariffPage.InputDevices;
 				this.switchPage(VpnTariffPage.InputDevices);
@@ -409,20 +433,16 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			const selectedValues = selectedTariff;
 			const deviceSpoilerBlock = spollerContainer;
 
-			// if (deviceSpoilerBlock.children.length + 2 > limitDevicesSpoller) {
-			// 	this.addDevices(true);
-			// }
-
 			if (isAddSpoiller) {
 				spolierCounter = 1;
 			} else {
 				spolierCounter = selectedValues.devicesNumber;
 			}
-
 			for (let i = 0; i < spolierCounter; i++) {
-				//this.devices.push(1);
-
-				//const spoilerNum = deviceSpoilerBlock.children.length + 1;
+				this.devices.push({
+					country: '',
+					protocol: ''
+				})
 
 				const deviceEl = document.createElement('div')
 				deviceEl.classList.add("devices__item");
@@ -448,8 +468,11 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				devicesDropdown.classList.add("closed");
 				deviceSpoilerBody.appendChild(devicesDropdown);
 
+				///
+
 				const devicesDropdownButton = document.createElement("h2");
 				devicesDropdownButton.classList.add("devices__dropdown-title");
+				devicesDropdownButton.setAttribute('value', '');
 				devicesDropdownButton.innerHTML = `Выберите страну`;
 				devicesDropdown.appendChild(devicesDropdownButton);
 
@@ -464,11 +487,19 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				deviceSpoilerBody.appendChild(contentOption);
 
 				for (let j = 0; j < this.countries.length; j++) {
-					devicesDropdownList.appendChild(this.createDeviceContries(devicesDropdown, devicesDropdownButton, j));
+					devicesDropdownList.appendChild(this.createDeviceContries(devicesDropdown, devicesDropdownButton, j, i));
 				}
 				for (let k = 0; k < this.protocols.length; k++) {
 					contentOption.appendChild(this.createDeviceProtocols(i, k));
 				}
+				//
+				contentOption.querySelectorAll('input').forEach((radio, i) => {
+					if (i === 0) {
+						radio.setAttribute('checked', '');
+						radio.click();
+					}
+				});
+				//
 				devicesDropdownButton.onclick = (e) => {
 					devicesDropdown.classList.toggle('closed');
 				}
@@ -476,7 +507,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 				this.deviceoptionValues.nameAttr++;
 			}
 		},
-		createDeviceContries(dropdown, elemButton, index) {
+		createDeviceContries(dropdown, elemButton, index, deviceIndex) {
 			const country = this.countries[index].country;
 			const devicesDropdownItem = document.createElement("li");
 			devicesDropdownItem.classList.add("devices__dropdown-item");
@@ -486,6 +517,11 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			devicesDropdownItem.onclick = (e) => {
 				elemButton.innerHTML = `${devicesDropdownItem.innerText}`;
 				dropdown.classList.toggle('closed');
+
+				dropdown.querySelector('.devices__dropdown-title').setAttribute('value', elemButton.innerHTML)
+
+				//this.devices[deviceIndex].country = elemButton.innerHTML;
+				//console.log(this.devices[deviceIndex].country);
 			}
 			this.deviceoptionValues.countryValue++;
 			return devicesDropdownItem;
@@ -497,11 +533,12 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			optionProtocol.classList.add('options__item');
 
 			optionProtocol.innerHTML = `
-			<input hidden id="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__input" checked type="radio" value="r_${DeviceProtocolIndex}_1" name="option${this.deviceoptionValues.nameAttr}">
-			<label for="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__label">
-				<span class="options__text">${protocol}</span>
-			</label>
+				<input hidden id="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__input" type="radio" value="r_${DeviceProtocolIndex}_1" name="option${this.deviceoptionValues.nameAttr}">
+				<label for="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__label">
+					<span class="options__text">${protocol}</span>
+				</label>
 			`;
+
 			this.deviceoptionValues.id++;
 			return optionProtocol;
 		},
@@ -511,7 +548,7 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 			const price = this.selectedTariff.price;
 			const discount = this.selectedTariff.discount;
 			const currency = this.selectedTariff.currency;
-			const devicesNumber = this.devices.deviceAmount;
+			const devicesNumber = this.devices.length;
 
 			const PaymentSelectionContainer = document.querySelector('.payment__info-content');
 			document.querySelector('.payment__title').innerHTML = `Доступ к VPN на ${month_duration} месяцев.`;
@@ -556,14 +593,43 @@ export const startVpnWebApp = (GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS) 
 		},
 		addDevices() {
 
-			this.devices.deviceAmount++;
-
 			this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true);
 
 		},
+		fillDevices(deviceitems) {
+
+			for (let i = 0; i < deviceitems.length; i++) {
+				const country = deviceitems[i].querySelector('.devices__dropdown-title').getAttribute('value')
+				const optItems = deviceitems[i].querySelectorAll('.options__item')
+
+				for (let j = 0; j < optItems.length; j++) {
+					const optItem = optItems[j];
+
+					if (optItem.querySelector('.options__input').checked) {
+
+						this.devices[i].protocol = optItem.querySelector('.options__text').innerHTML;
+					}
+				}
+				this.devices[i].country = country;
+
+			}
+
+		},
+		SubmitData() {
+			// ============================= this.devices
+			// 	fetch("handler.php", {
+			// 		method: "POST",
+			// 		body: data
+			//   }).then(function (response) {
+			// 		...
+			//   }).catch(function (error) {
+			// 		...
+			//   });
+		}
 	}
 
 	VpnInProcess.init();
 
 };
+
 

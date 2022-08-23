@@ -1,8 +1,6 @@
 
 import * as app from "./script.js";
 
-//app.startVpnWebApp();
-
 
 
 async function callApi(url, assign) {
@@ -28,13 +26,17 @@ async function callApi(url, assign) {
 				PROTOCOLS = data
 			})
 	} catch (error) {
-		console.log(error);
+		// ...
 	}
 
+	// start
 	app.startVpnWebApp(GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS);
 
 }
-callApi();
+
+// ======================
+//callApi();
+app.startVpnWebApp();
 
 
 //==SERVER============================
