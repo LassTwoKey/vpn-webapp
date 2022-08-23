@@ -1,29 +1,4 @@
-// Подключение списка активных модулей
-import { flsModules } from "./modules.js";
 
-/* Проверка поддержки webp, добавление класса webp или no-webp для HTML */
-export function isWebp() {
-	// Проверка поддержки webp
-	function testWebP(callback) {
-		let webP = new Image();
-		webP.onload = webP.onerror = function () {
-			callback(webP.height == 2);
-		};
-		webP.src = "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA";
-	}
-	// Добавление класса _webp или _no-webp для HTML
-	testWebP(function (support) {
-		let className = support === true ? 'webp' : 'no-webp';
-		document.documentElement.classList.add(className);
-	});
-}
-/* Проверка мобильного браузера */
-export let isMobile = { Android: function () { return navigator.userAgent.match(/Android/i); }, BlackBerry: function () { return navigator.userAgent.match(/BlackBerry/i); }, iOS: function () { return navigator.userAgent.match(/iPhone|iPad|iPod/i); }, Opera: function () { return navigator.userAgent.match(/Opera Mini/i); }, Windows: function () { return navigator.userAgent.match(/IEMobile/i); }, any: function () { return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows()); } };
-/* Добавление класса touch для HTML если браузер мобильный */
-export function addTouchClass() {
-	// Добавление класса _touch для HTML если браузер мобильный
-	if (isMobile.any()) document.documentElement.classList.add('touch');
-}
 // Добавление loaded для HTML после полной загрузки страницы
 export function addLoadedClass() {
 	window.addEventListener("load", function () {
@@ -31,15 +6,6 @@ export function addLoadedClass() {
 			document.documentElement.classList.add('loaded');
 		}, 500);
 	});
-}
-// Получение хеша в адресе сайта
-export function getHash() {
-	if (location.hash) { return location.hash.replace('#', ''); }
-}
-// Указание хеша в адресе сайта
-export function setHash(hash) {
-	hash = hash ? `#${hash}` : window.location.href.split('#')[0];
-	history.pushState('', '', hash);
 }
 // Вспомогательные модули плавного расскрытия и закрытия объекта ======================================================================================================================================================================
 export let _slideUp = (target, duration = 500, showmore = 0) => {
@@ -129,17 +95,6 @@ export function spollers() {
 		if (spollersRegular.length) {
 			initSpollers(spollersRegular);
 		}
-		// Получение слойлеров с медиа запросами
-		let mdQueriesArray = dataMediaQueries(spollersArray, "spollers");
-		if (mdQueriesArray && mdQueriesArray.length) {
-			mdQueriesArray.forEach(mdQueriesItem => {
-				// Событие
-				mdQueriesItem.matchMedia.addEventListener("change", function () {
-					initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-				});
-				initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-			});
-		}
 		// Инициализация
 		function initSpollers(spollersArray, matchMedia = false) {
 			spollersArray.forEach(spollersBlock => {
@@ -215,82 +170,6 @@ export function spollers() {
 			});
 		}
 	}
-}
-// Модуль работы с меню =======================================================================================================================================================================================================================
-export function menuInit() {
-	if (document.querySelector(".icon-menu")) {
-		document.addEventListener("click", function (e) {
-			if (bodyLockStatus && e.target.closest('.icon-menu')) {
-				bodyLockToggle();
-				document.documentElement.classList.toggle("menu-open");
-			}
-		});
-	};
-}
-export function menuOpen() {
-	bodyLock();
-	document.documentElement.classList.add("menu-open");
-}
-export function menuClose() {
-	bodyUnlock();
-	document.documentElement.classList.remove("menu-open");
-}
-// Обработа медиа запросов из атрибутов 
-export function dataMediaQueries(array, dataSetValue) {
-	// Получение объектов с медиа запросами
-	const media = Array.from(array).filter(function (item, index, self) {
-		if (item.dataset[dataSetValue]) {
-			return item.dataset[dataSetValue].split(",")[0];
-		}
-	});
-	// Инициализация объектов с медиа запросами
-	if (media.length) {
-		const breakpointsArray = [];
-		media.forEach(item => {
-			const params = item.dataset[dataSetValue];
-			const breakpoint = {};
-			const paramsArray = params.split(",");
-			breakpoint.value = paramsArray[0];
-			breakpoint.type = paramsArray[1] ? paramsArray[1].trim() : "max";
-			breakpoint.item = item;
-			breakpointsArray.push(breakpoint);
-		});
-		// Получаем уникальные брейкпоинты
-		let mdQueries = breakpointsArray.map(function (item) {
-			return '(' + item.type + "-width: " + item.value + "px)," + item.value + ',' + item.type;
-		});
-		mdQueries = uniqArray(mdQueries);
-		const mdQueriesArray = [];
-
-		if (mdQueries.length) {
-			// Работаем с каждым брейкпоинтом
-			mdQueries.forEach(breakpoint => {
-				const paramsArray = breakpoint.split(",");
-				const mediaBreakpoint = paramsArray[1];
-				const mediaType = paramsArray[2];
-				const matchMedia = window.matchMedia(paramsArray[0]);
-				// Объекты с нужными условиями
-				const itemsArray = breakpointsArray.filter(function (item) {
-					if (item.value === mediaBreakpoint && item.type === mediaType) {
-						return true;
-					}
-				});
-				mdQueriesArray.push({
-					itemsArray,
-					matchMedia
-				})
-			});
-			return mdQueriesArray;
-		}
-	}
-}
-// FLS (Full Logging System)
-export function FLS(message) {
-	setTimeout(() => {
-		if (window.FLS) {
-			console.log(message);
-		}
-	}, 0);
 }
 
 //================================================================================================================================================================================================================================================================================================================
