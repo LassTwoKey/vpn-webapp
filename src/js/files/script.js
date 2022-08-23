@@ -97,7 +97,6 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			]
 		},
 	];
-
 	const COUNTRIES = [
 		{
 			country: 'Belarus',
@@ -161,41 +160,38 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 		},
 	];
 
+
+
 	const ExtendVpnselectedTariff = {
+		subscription_id: 123123,
 		month_duration: 12,
 		price: 2000,
 		discount: 20,
 		currency: 'RUB',
 		devicesNumber: 3
 	}
-
-	//==============================
-
 	const VpnTariffState = {
 		MakeAnOrder: 'MakeAnOrder',
 		ExtendVpnSubscription: 'ExtendVpnSubscription'
 	};
-
 	const VpnTariffPage = {
 		SelectTariffPage: 'SelectTariffPage',
 		InputDevices: 'InputDevices',
 		AcceptVpnCard: 'AcceptVpnCard'
 	}
-
 	const allowDeviceToAdd = 4;
+
+
 
 	const VpnInProcess = {
 		protocols: PROTOCOLS,
 		countries: COUNTRIES,
 		groupedByMonthDuration: GROUPED_BY_MONTH_DURATION,
-
 		state: VpnTariffState.MakeAnOrder,
 		currentPage: VpnTariffPage.SelectTariffPage,
 		selectedTariff: {},
 		isTermsOfRulesAccepted: false,
-		devices: [
-
-		],
+		devices: [],
 		pages: {
 			tariffs: document.querySelector('.tariffs'),
 			devices: document.querySelector('.devices'),
@@ -213,21 +209,21 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 		deviceoptionValues: {
 			nameAttr: 1,
 			id: 1,
-			countryValue: 1,
+			countryValue: 1
 		},
-
 
 		init() {
 			switch (this.state) {
 				case VpnTariffState.ExtendVpnSubscription:
-					this.switchPage(VpnTariffPage.AcceptVpnCard)
+					this.switchPage(VpnTariffPage.AcceptVpnCard);
 					break;
 				case VpnTariffState.MakeAnOrder:
-					this.switchPage(VpnTariffPage.SelectTariffPage)
+					this.switchPage(VpnTariffPage.SelectTariffPage);
 					break;
 				default:
-					throw 'Wrong statement'
+					throw 'Wrong statement';
 			}
+
 			if (this.currentPage === VpnTariffPage.SelectTariffPage) {
 				this.createMonthDurationSpoilers(this.groupedByMonthDuration);
 			}
@@ -280,14 +276,13 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				this.mainButtons.toCheckout.classList.add('hidden');
 				this.mainButtons.toPay.classList.remove('hidden');
 			}
-			// =================================
+
 			if (this.state === VpnTariffState.ExtendVpnSubscription) {
 				this.countrols.tariffs.classList.add('hidden');
 				this.countrols.devices.classList.add('hidden');
 				this.countrols.payment.classList.remove('hidden');
 				this.countrols.payment.classList.add('only-payment');
 			}
-
 		},
 		controlsVpn() {
 			this.countrols.tariffs.onclick = () => {
@@ -309,25 +304,19 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 		},
 		mainButtonsVpn() {
 			this.mainButtons.toCheckout.onclick = () => {
-
 				const deviceitems = document.querySelectorAll('.devices__item');
-
 				let condition = true;
 
-				function validationCountry() {
-					deviceitems.forEach((device, i) => {
-						if (!device.querySelector('.devices__dropdown-title').getAttribute('value')) {
-							condition = false;
-							device.classList.add('empty');
-						}
-						else {
-							device.classList.remove('empty');
-						}
-					});
-				}
-				validationCountry();
+				deviceitems.forEach((device, i) => {
+					if (!device.querySelector('.devices__dropdown-title').getAttribute('value')) {
+						condition = false;
+						device.classList.add('empty');
+					}
+					else {
+						device.classList.remove('empty');
+					}
+				});
 
-				// ======================
 				if (condition) {
 					this.currentPage = VpnTariffPage.AcceptVpnCard;
 					this.switchPage(VpnTariffPage.AcceptVpnCard);
@@ -340,13 +329,11 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				this.SubmitData();
 			}
 		},
-		//===========
 		createMonthDurationSpoilers(groupedByMonthDuration) {
 			const groupedBy = groupedByMonthDuration;
 			const monthDurationSpoilerBlock = document.querySelector('[data-spoller-tariffs]');
 			monthDurationSpoilerBlock.innerHTML = '';
 			for (let i = 0; i < groupedBy.length; i++) {
-
 				const monthDuration = groupedBy[i].month_duration;
 				const tariffs = groupedBy[i].tariffs;
 
@@ -360,14 +347,11 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				monthDurationSpoilerBtn.setAttribute('type', 'button');
 				monthDurationSpoilerBtn.classList.add("spollers__title");
 				monthDurationSpoilerBtn.classList.add("tariffs__title");
-				monthDurationSpoilerBtn.innerHTML = `
-					${monthDuration} месяцев
-				`;
+				monthDurationSpoilerBtn.innerHTML = `${monthDuration} месяцев`;
 				if (i === 0) {
 					monthDurationSpoilerBtn.classList.add("_spoller-active");
 				}
 				monthDurationSpoiler.appendChild(monthDurationSpoilerBtn);
-
 
 				const monthDurationSpoilerBody = document.createElement("div");
 				monthDurationSpoilerBody.classList.add("spollers__body");
@@ -408,25 +392,21 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				this.currentPage = VpnTariffPage.InputDevices;
 				this.switchPage(VpnTariffPage.InputDevices);
 
-
 				this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), false);
-
 				this.mainButtonsVpn();
 
 				if (!(this.selectedTariff.devicesNumber === allowDeviceToAdd)) {
 					document.querySelector('.devices__add').innerHTML = '';
 				} else {
 					document.querySelector('.devices__add').innerHTML = `
-					<button data-add-device class="devices__add-button">
-						<span class="">+</span>
-					</button>
+						<button data-add-device class="devices__add-button">
+							<span class="">+</span>
+						</button>
 					`;
 				}
 			});
-
 			return vpnTariff;
 		},
-		//===========
 		createDeviceSpollers(selectedTariff, spollerContainer, isAddSpoiller) {
 			let spolierCounter;
 
@@ -438,6 +418,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			} else {
 				spolierCounter = selectedValues.devicesNumber;
 			}
+
 			for (let i = 0; i < spolierCounter; i++) {
 				this.devices.push({
 					country: '',
@@ -453,9 +434,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				deviceSpoilerBtn.setAttribute('type', 'button');
 				deviceSpoilerBtn.classList.add("spollers__title");
 				deviceSpoilerBtn.classList.add("devices__title");
-				deviceSpoilerBtn.innerHTML = `
-					Устройство ${this.deviceoptionValues.nameAttr}
-				`;
+				deviceSpoilerBtn.innerHTML = `Устройство ${this.deviceoptionValues.nameAttr}`;
 				deviceEl.appendChild(deviceSpoilerBtn);
 
 				const deviceSpoilerBody = document.createElement("div");
@@ -468,8 +447,6 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				devicesDropdown.classList.add("closed");
 				deviceSpoilerBody.appendChild(devicesDropdown);
 
-				///
-
 				const devicesDropdownButton = document.createElement("h2");
 				devicesDropdownButton.classList.add("devices__dropdown-title");
 				devicesDropdownButton.setAttribute('value', '');
@@ -480,35 +457,38 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				devicesDropdownList.classList.add("devices__dropdown-list");
 				devicesDropdown.appendChild(devicesDropdownList);
 
-
 				const contentOption = document.createElement("div");
 				contentOption.classList.add('options');
 				contentOption.classList.add('devices__options');
 				deviceSpoilerBody.appendChild(contentOption);
 
 				for (let j = 0; j < this.countries.length; j++) {
-					devicesDropdownList.appendChild(this.createDeviceContries(devicesDropdown, devicesDropdownButton, j, i));
+					devicesDropdownList.appendChild(this.createDeviceContries(devicesDropdown, devicesDropdownButton, j));
 				}
+
 				for (let k = 0; k < this.protocols.length; k++) {
-					contentOption.appendChild(this.createDeviceProtocols(i, k));
+					contentOption.appendChild(this.createDeviceProtocols(k));
 				}
-				//
+
 				contentOption.querySelectorAll('input').forEach((radio, i) => {
 					if (i === 0) {
 						radio.setAttribute('checked', '');
 						radio.click();
 					}
 				});
-				//
+
 				devicesDropdownButton.onclick = (e) => {
 					devicesDropdown.classList.toggle('closed');
 				}
-				vpnFunctions.spollers();
+
 				this.deviceoptionValues.nameAttr++;
+
+				vpnFunctions.spollers();
 			}
 		},
-		createDeviceContries(dropdown, elemButton, index, deviceIndex) {
+		createDeviceContries(dropdown, elemButton, index) {
 			const country = this.countries[index].country;
+
 			const devicesDropdownItem = document.createElement("li");
 			devicesDropdownItem.classList.add("devices__dropdown-item");
 			devicesDropdownItem.setAttribute('country', `${this.deviceoptionValues.countryValue}`);
@@ -517,16 +497,14 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			devicesDropdownItem.onclick = (e) => {
 				elemButton.innerHTML = `${devicesDropdownItem.innerText}`;
 				dropdown.classList.toggle('closed');
-
 				dropdown.querySelector('.devices__dropdown-title').setAttribute('value', elemButton.innerHTML)
-
-				//this.devices[deviceIndex].country = elemButton.innerHTML;
-				//console.log(this.devices[deviceIndex].country);
 			}
+
 			this.deviceoptionValues.countryValue++;
+
 			return devicesDropdownItem;
 		},
-		createDeviceProtocols(DeviceSpollerIndex, DeviceProtocolIndex) {
+		createDeviceProtocols(DeviceProtocolIndex) {
 			const protocol = this.protocols[DeviceProtocolIndex].protocol;
 
 			const optionProtocol = document.createElement("div");
@@ -540,9 +518,9 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			`;
 
 			this.deviceoptionValues.id++;
+
 			return optionProtocol;
 		},
-		//===========
 		createPaymentSelection() {
 			const month_duration = this.selectedTariff.month_duration;
 			const price = this.selectedTariff.price;
@@ -563,10 +541,10 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				</div>
 			`;
 		},
-		//===========
 		updatePaymentButton() {
 			const checkbox = this.querySelector('input');
 			const buttonPay = document.querySelector('[data-pay]');
+
 			if (checkbox.checked) {
 				buttonPay.classList.add('checked');
 			} else {
@@ -578,9 +556,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			checkedElement.addEventListener('change', this.updatePaymentButton);
 		},
 		addDevicesCheck() {
-
 			const addDeviceButton = document.querySelector('.devices__add');
-
 			addDeviceButton.innerHTML = `
 				<button data-add-device class="devices__add-button">
 					<span class="">+</span>
@@ -592,12 +568,9 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			});
 		},
 		addDevices() {
-
 			this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true);
-
 		},
 		fillDevices(deviceitems) {
-
 			for (let i = 0; i < deviceitems.length; i++) {
 				const country = deviceitems[i].querySelector('.devices__dropdown-title').getAttribute('value')
 				const optItems = deviceitems[i].querySelectorAll('.options__item')
@@ -606,17 +579,16 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 					const optItem = optItems[j];
 
 					if (optItem.querySelector('.options__input').checked) {
-
 						this.devices[i].protocol = optItem.querySelector('.options__text').innerHTML;
 					}
 				}
-				this.devices[i].country = country;
 
+				this.devices[i].country = country;
 			}
 
 		},
 		SubmitData() {
-			// ============================= this.devices
+			console.log(this.devices);
 			// 	fetch("handler.php", {
 			// 		method: "POST",
 			// 		body: data
@@ -627,9 +599,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			//   });
 		}
 	}
-
 	VpnInProcess.init();
-
 };
 
 
