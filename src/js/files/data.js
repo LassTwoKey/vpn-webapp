@@ -88,6 +88,13 @@ const GROUPED_BY_MONTH_DURATION = [
 				currency: "RUB",
 				discount: 73
 			},
+			{
+				month_duration: 3,
+				devices_number: 5,
+				result_price: 3500,
+				currency: "RUB",
+				discount: 73
+			},
 		]
 	},
 ];
@@ -156,6 +163,14 @@ const PROTOCOL = [
 	},
 ];
 
+const ExtendVpnselectedTariff = { // если продялть подписку
+	month_duration: 12,
+	price: 2000,
+	discount: 20,
+	currency: 'RUB',
+	devicesNumber: 3
+}
+
 const VpnTariffState = {
 	MakeAnOrder: 'MakeAnOrder',
 	ExtendVpnSubscription: 'ExtendVpnSubscription'
@@ -167,9 +182,9 @@ const VpnTariffPage = {
 	AcceptVpnCard: 'AcceptVpnCard'
 }
 
-const allowDeviceToAdd = 3; // ограничения при выборе тарифов на странице tariffs, когда есть +
+const allowDeviceToAdd = 4;
 
-const limitDevicesSpoller = 5; // ограничения при добавлении девайсов 
+//const limitDevicesSpoller = 4;
 
 const VpnInProcess = {
 	protocols: PROTOCOL,
@@ -180,7 +195,9 @@ const VpnInProcess = {
 	currentPage: VpnTariffPage.SelectTariffPage,
 	selectedTariff: {},
 	isTermsOfRulesAccepted: false,
-	//devices: [],
+	devices: {
+		deviceAmount: 0 || ExtendVpnselectedTariff.devicesNumber,
+	},
 	pages: {
 		tariffs: document.querySelector('.tariffs'),
 		devices: document.querySelector('.devices'),
@@ -213,12 +230,18 @@ const VpnInProcess = {
 			default:
 				throw 'Wrong statement'
 		}
-		this.createMonthDurationSpoilers(this.groupedByMonthDuration);
+		if (this.currentPage === VpnTariffPage.SelectTariffPage) {
+			this.createMonthDurationSpoilers(this.groupedByMonthDuration);
+		}
+
 		this.controlsVpn();
-		//this.mainButtonsVpn();
-		// =================================
-		//this.addDevices();
-		//this.accessPayClick();
+		this.addDevicesCheck();
+
+		if (this.state === VpnTariffState.ExtendVpnSubscription) {
+			this.selectedTariff = ExtendVpnselectedTariff;
+			this.createPaymentSelection();
+			this.accessPayClick();
+		}
 	},
 	switchPage(page) {
 		if (page === VpnTariffPage.SelectTariffPage) {
@@ -270,20 +293,24 @@ const VpnInProcess = {
 	},
 	controlsVpn() {
 		this.countrols.tariffs.onclick = () => {
-			this.switchPage(VpnTariffPage.SelectTariffPage);
+			this.currentPage = VpnTariffPage.SelectTariffPage;
+			this.switchPage(this.currentPage);
 			this.deviceoptionValues.id = 1;
 			this.deviceoptionValues.nameAttr = 1;
 			this.deviceoptionValues.countryValue = 1;
 		}
 		this.countrols.devices.onclick = () => {
-			this.switchPage(VpnTariffPage.InputDevices);
+			this.currentPage = VpnTariffPage.InputDevices;
+			this.switchPage(this.currentPage);
 		}
 		this.countrols.payment.onclick = () => {
-			this.switchPage(VpnTariffPage.AcceptVpnCard);
+			this.currentPage = VpnTariffPage.AcceptVpnCard;
+			this.switchPage(this.currentPage);
 		}
 	},
 	mainButtonsVpn() {
 		this.mainButtons.toСheckout.onclick = () => {
+			this.currentPage = VpnTariffPage.AcceptVpnCard;
 			this.switchPage(VpnTariffPage.AcceptVpnCard);
 			this.createPaymentSelection();
 			this.accessPayClick();
@@ -293,6 +320,7 @@ const VpnInProcess = {
 	createMonthDurationSpoilers(groupedByMonthDuration) {
 		const groupedBy = groupedByMonthDuration;
 		const monthDurationSpoilerBlock = document.querySelector('[data-spoller-tariffs]');
+		monthDurationSpoilerBlock.innerHTML = '';
 		for (let i = 0; i < groupedBy.length; i++) {
 
 			const monthDuration = groupedBy[i].month_duration;
@@ -351,13 +379,26 @@ const VpnInProcess = {
 				currency: currency,
 				devicesNumber: devicesNumber
 			}
+			this.devices.deviceAmount = this.selectedTariff.devicesNumber;
+
+			this.currentPage = VpnTariffPage.InputDevices;
 			this.switchPage(VpnTariffPage.InputDevices);
+
 
 			this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), false);
 
 			this.mainButtonsVpn();
-			this.addDevices();
-		})
+
+			if (!(this.selectedTariff.devicesNumber === allowDeviceToAdd)) {
+				document.querySelector('.devices__add').innerHTML = '';
+			} else {
+				document.querySelector('.devices__add').innerHTML = `
+				<button data-add-device class="devices__add-button">
+					<span class="">+</span>
+				</button>
+				`;
+			}
+		});
 
 		return vpnTariff;
 	},
@@ -368,9 +409,9 @@ const VpnInProcess = {
 		const selectedValues = selectedTariff;
 		const deviceSpoilerBlock = spollerContainer;
 
-		if (deviceSpoilerBlock.children.length + 2 > limitDevicesSpoller) {
-			this.addDevices(true);
-		}
+		// if (deviceSpoilerBlock.children.length + 2 > limitDevicesSpoller) {
+		// 	this.addDevices(true);
+		// }
 
 		if (isAddSpoiller) {
 			spolierCounter = 1;
@@ -470,6 +511,7 @@ const VpnInProcess = {
 		const price = this.selectedTariff.price;
 		const discount = this.selectedTariff.discount;
 		const currency = this.selectedTariff.currency;
+		const devicesNumber = this.devices.deviceAmount;
 
 		const PaymentSelectionContainer = document.querySelector('.payment__info-content');
 		document.querySelector('.payment__title').innerHTML = `Доступ к VPN на ${month_duration} месяцев.`;
@@ -478,8 +520,8 @@ const VpnInProcess = {
 				<div class="payment__currency">
 					<div class="payment__initial">${price} ${currency}</div>
 				</div>
-				<div class="payment__mon">${month_duration}</div>
-				<div class="payment__mon-text">месяцев подписки на VPN</div>
+				<div class="payment__mon">${month_duration} месяцев</div>
+				<div class="payment__devices">${devicesNumber} устройств</div>
 				<span class="discount">${discount}%</span>
 			</div>
 		`;
@@ -498,20 +540,26 @@ const VpnInProcess = {
 		const checkedElement = document.querySelector('.checkbox');
 		checkedElement.addEventListener('change', this.updatePaymentButton);
 	},
-	addDevices(isLimited = null) {
+	addDevicesCheck() {
+
 		const addDeviceButton = document.querySelector('.devices__add');
-		if (this.selectedTariff.devicesNumber >= allowDeviceToAdd || isLimited) {
-			addDeviceButton.innerHTML = '';
-		} else {
-			addDeviceButton.innerHTML = `
-				<button data-add-device class="devices__add-button">
-					<span class="">+</span>
-				</button>
-			`;
-			addDeviceButton.addEventListener('click', e => {
-				this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true)
-			});
-		}
+
+		addDeviceButton.innerHTML = `
+			<button data-add-device class="devices__add-button">
+				<span class="">+</span>
+			</button>
+		`;
+
+		addDeviceButton.addEventListener('click', e => {
+			this.addDevices();
+		});
+	},
+	addDevices() {
+
+		this.devices.deviceAmount++;
+
+		this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true);
+
 	},
 }
 
