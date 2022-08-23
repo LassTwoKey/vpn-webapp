@@ -1,13 +1,8 @@
 .options {
-	// display: flex;
-	// flex-direction: column;
 	// .options__item
 	&__item {
 		position: relative;
 		cursor: pointer;
-		// &:not(:last-child) {
-		// 	margin-bottom: em(5);
-		// }
 	}
 	// .options__input
 	&__input {
