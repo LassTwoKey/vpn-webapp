@@ -7,6 +7,9 @@
 	justify-content: space-between;
 	flex-direction: column;
 	text-align: center;
+	@media (max-height: em(660)){
+		padding-top: 40px;
+	}
 	&__block {
 		display: flex;
 		flex-direction: column;
@@ -38,10 +41,17 @@
 			}
 		}
 		margin-bottom: 70px;
+		@media (max-height: em(660)){
+			margin-bottom: 50px;
+		}
 	}
 	&__text{
 		font-size: 2.25rem;
 		margin-bottom: 70px;
+		padding: 0 10px;
+		@media (max-height: em(660)){
+			margin-bottom: 50px;
+		}
 	}
 	&__btn {
 		padding: 10px 20px;
