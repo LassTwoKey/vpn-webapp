@@ -17,7 +17,20 @@
 	<div class="wrapper">
 		<div class="page-status success"></div>
 	</div>
+	<div class="preloader">
+		<div class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
 	<script>
+		window.addEventListener("load", function () {
+			setTimeout(function () {
+				document.documentElement.classList.add('loaded');
+			}, 500);
+		});
+		
 		window.Telegram.WebApp.ready();
 		window.Telegram.WebApp.expand();
 
