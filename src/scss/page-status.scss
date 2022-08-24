@@ -1,7 +1,7 @@
 .page-status {
-	padding-top: 170px;
+	padding-top: 150px;
 	padding-bottom: 50px;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -49,6 +49,7 @@
 		border-radius: 30px;
 		cursor: default;
 		user-select: none;
+		font-size: rem(20);
 		@media (any-hover: hover){
 			cursor: pointer;
 		}
