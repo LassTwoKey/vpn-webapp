@@ -174,6 +174,9 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 		MakeAnOrder: 'MakeAnOrder',
 		ExtendVpnSubscription: 'ExtendVpnSubscription'
 	};
+
+
+
 	const VpnTariffPage = {
 		SelectTariffPage: 'SelectTariffPage',
 		InputDevices: 'InputDevices',
