@@ -1,4 +1,5 @@
 import * as vpnFunctions from "./functions.js";
+
 (function ($) {
 	$.fn.redraw = function () {
 		return this.map(function () { this.offsetTop; return this; });
@@ -9,176 +10,6 @@ vpnFunctions.addLoadedClass();
 vpnFunctions.spollers();
 
 export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS
-	const GROUPED_BY_MONTH_DURATION = [
-		{
-			month_duration: 12,
-			tariffs: [
-				{
-					month_duration: 12,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 12,
-					devices_number: 2,
-					result_price: 2000,
-					currency: "RUB",
-					discount: 20
-				},
-			]
-		},
-		{
-			month_duration: 6,
-			tariffs: [
-				{
-					month_duration: 6,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 2,
-					result_price: 1700,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 3,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 4,
-					result_price: 2500,
-					currency: "RUB",
-					discount: 20
-				},
-			]
-		},
-		{
-			month_duration: 3,
-			tariffs: [
-				{
-					month_duration: 3,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 43
-				},
-				{
-					month_duration: 3,
-					devices_number: 2,
-					result_price: 2020,
-					currency: "RUB",
-					discount: 23
-				},
-				{
-					month_duration: 3,
-					devices_number: 3,
-					result_price: 2489,
-					currency: "RUB",
-					discount: 10
-				},
-				{
-					month_duration: 3,
-					devices_number: 4,
-					result_price: 3000,
-					currency: "RUB",
-					discount: 73
-				},
-				{
-					month_duration: 3,
-					devices_number: 5,
-					result_price: 3500,
-					currency: "RUB",
-					discount: 73
-				},
-			]
-		},
-	];
-	const COUNTRIES = [
-		{
-			country: 'Belarus',
-			id: 'BY',
-			discount: 0
-		},
-		{
-			country: 'Norway',
-			id: 'NW',
-			discount: 56
-		},
-		{
-			country: 'Germany',
-			id: 'GR',
-			discount: 23
-		},
-		{
-			country: 'Russia',
-			id: 'RU',
-			discount: 7
-		},
-		{
-			country: 'USA',
-			id: 'US',
-			discount: 20
-		},
-		{
-			country: 'Belarus',
-			id: 'BY',
-			discount: 0
-		},
-		{
-			country: 'Norway',
-			id: 'NW',
-			discount: 56
-		},
-		{
-			country: 'Germany',
-			id: 'GR',
-			discount: 23
-		},
-		{
-			country: 'Russia',
-			id: 'RU',
-			discount: 7
-		},
-		{
-			country: 'USA',
-			id: 'US',
-			discount: 20
-		},
-	];
-	const PROTOCOLS = [
-		{
-			protocol: "Wiregurad",
-			id: 4
-		},
-		{
-			protocol: "OpenVpn",
-			id: 5
-		},
-	];
-
-
-
-	const ExtendVpnselectedTariff = {
-		subscription_id: 123123,
-		month_duration: 12,
-		price: 2000,
-		discount: 20,
-		currency: 'RUB',
-		devicesNumber: 3
-	}
-
-	//==============================
-
 	const VpnTariffState = {
 		MakeAnOrder: 'MakeAnOrder',
 		ExtendVpnSubscription: 'ExtendVpnSubscription'
@@ -229,7 +60,7 @@ const VpnInProcess = {
 		init() {
 			const params = new URLSearchParams(window.location.search)
 			this.state = params.get('state')
-			VpnInProcess.apiUrl = "https://5b1f-37-214-31-225.eu.ngrok.io/api/v1/";
+			VpnInProcess.apiUrl = process.env.VPN_REST_HTTPS;
 
 			switch (this.state) {
 				case VpnTariffState.ExtendVpnSubscription:

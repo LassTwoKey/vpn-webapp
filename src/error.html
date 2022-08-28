@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<title>Главная</title>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap&_v=20220828141532"
+		rel="stylesheet">
+	<script src="https://telegram.org/js/telegram-web-app.js?_v=20220828141532"></script>
+	<!-- <link rel="shortcut icon" href="img/icons/favicon.ico"> -->
+	<link rel="stylesheet" href="/dist/style.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="page-status error">
+			<div class="page-status__block error">
+				<div class="page-status__icon error">
+					<span class="_icon-close"></span>
+				</div>
+				<h1 class="page-status__text">Оплата не прошла</h1>
+			</div>
+			<button data-close-web-app class="page-status__btn error">Ок</button>
+		</div>
+	</div>
+	<div class="preloader">
+		<div class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<script>
+
+	</script>
+	<script defer>
+		(() => {
+			"use strict";
+			window.addEventListener("load", (function () {
+				setTimeout((function () {
+					document.documentElement.classList.add("loaded");
+				}), 500);
+			}));
+			window.Telegram.WebApp.ready();
+			window.Telegram.WebApp.expand();
+			const closeWebAppBtn = document.querySelector("[data-close-web-app]");
+			closeWebAppBtn.onclick = () => {
+				window.Telegram.WebApp.close();
+			};
+		})();
+	</script>
+</body>
+
+</html>

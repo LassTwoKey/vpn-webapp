@@ -1,4 +1,4 @@
-
+ 
 
 function telegramWebApp() {
 	const tg = window.Telegram.WebApp;;

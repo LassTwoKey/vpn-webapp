@@ -12,4 +12,4 @@ export const plugins = {
 	newer,
 	plumber,
 	rename
-}
+}	

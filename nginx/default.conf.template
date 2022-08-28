@@ -1,0 +1,16 @@
+server {
+    listen 80;
+    root /srv;
+    location / {
+        rewrite ^.*$ /index.html break;
+    }
+    location /error {
+        rewrite ^.*$ /error.html break;
+    }
+    location /success {
+        rewrite ^.*$ /success.html break;
+    }
+    location = /management/management.js {
+        alias /srv/dist/management.js;
+    }
+}
