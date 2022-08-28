@@ -51,7 +51,7 @@ const config = {
 		static: paths.build,
 		open: true,
 		compress: true,
-		port: '8000',
+		port: '7070',
 		hot: true,
 		host: 'localhost',
 		watchFiles: [

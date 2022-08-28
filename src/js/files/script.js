@@ -1,166 +1,14 @@
 import * as vpnFunctions from "./functions.js";
+(function ($) {
+	$.fn.redraw = function () {
+		return this.map(function () { this.offsetTop; return this; });
+	};
+})(jQuery);
+
 vpnFunctions.addLoadedClass();
 vpnFunctions.spollers();
 
-export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS
-	const GROUPED_BY_MONTH_DURATION = [
-		{
-			month_duration: 12,
-			tariffs: [
-				{
-					month_duration: 12,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 12,
-					devices_number: 2,
-					result_price: 2000,
-					currency: "RUB",
-					discount: 20
-				},
-			]
-		},
-		{
-			month_duration: 6,
-			tariffs: [
-				{
-					month_duration: 6,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 2,
-					result_price: 1700,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 3,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 20
-				},
-				{
-					month_duration: 6,
-					devices_number: 4,
-					result_price: 2500,
-					currency: "RUB",
-					discount: 20
-				},
-			]
-		},
-		{
-			month_duration: 3,
-			tariffs: [
-				{
-					month_duration: 3,
-					devices_number: 1,
-					result_price: 1500,
-					currency: "RUB",
-					discount: 43
-				},
-				{
-					month_duration: 3,
-					devices_number: 2,
-					result_price: 2020,
-					currency: "RUB",
-					discount: 23
-				},
-				{
-					month_duration: 3,
-					devices_number: 3,
-					result_price: 2489,
-					currency: "RUB",
-					discount: 10
-				},
-				{
-					month_duration: 3,
-					devices_number: 4,
-					result_price: 3000,
-					currency: "RUB",
-					discount: 73
-				},
-				{
-					month_duration: 3,
-					devices_number: 5,
-					result_price: 3500,
-					currency: "RUB",
-					discount: 73
-				},
-			]
-		},
-	];
-
-	const COUNTRIES = [
-		{
-			country: 'Belarus',
-			id: 'BY',
-			discount: 0
-		},
-		{
-			country: 'Norway',
-			id: 'NW',
-			discount: 56
-		},
-		{
-			country: 'Germany',
-			id: 'GR',
-			discount: 23
-		},
-		{
-			country: 'Russia',
-			id: 'RU',
-			discount: 7
-		},
-		{
-			country: 'USA',
-			id: 'US',
-			discount: 20
-		},
-		{
-			country: 'Belarus',
-			id: 'BY',
-			discount: 0
-		},
-		{
-			country: 'Norway',
-			id: 'NW',
-			discount: 56
-		},
-		{
-			country: 'Germany',
-			id: 'GR',
-			discount: 23
-		},
-		{
-			country: 'Russia',
-			id: 'RU',
-			discount: 7
-		},
-		{
-			country: 'USA',
-			id: 'US',
-			discount: 20
-		},
-	];
-	const PROTOCOLS = [
-		{
-			protocol: "Wiregurad",
-			id: 4
-		},
-		{
-			protocol: "OpenVpn",
-			id: 5
-		},
-	];
-
+export const startVpnWebApp = () => { 
 	const ExtendVpnselectedTariff = {
 		month_duration: 12,
 		price: 2000,
@@ -182,20 +30,21 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 		AcceptVpnCard: 'AcceptVpnCard'
 	}
 
+	const DeviceAttribute = {
+		Country: 'country_id',
+		Protocol: 'protocol_id'
+	}
+
 	const allowDeviceToAdd = 4;
 
-	const VpnInProcess = {
-		protocols: PROTOCOLS,
-		countries: COUNTRIES,
-		groupedByMonthDuration: GROUPED_BY_MONTH_DURATION,
+const VpnInProcess = {
+		groupedByMonthDuration: {},
 
 		state: VpnTariffState.MakeAnOrder,
 		currentPage: VpnTariffPage.SelectTariffPage,
 		selectedTariff: {},
 		isTermsOfRulesAccepted: false,
-		devices: [
-
-		],
+		devices: [],
 		pages: {
 			tariffs: document.querySelector('.tariffs'),
 			devices: document.querySelector('.devices'),
@@ -218,28 +67,119 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 
 
 		init() {
+			const params = new URLSearchParams(window.location.search)
+			this.state = params.get('state')
+			VpnInProcess.apiUrl = "https://5b1f-37-214-31-225.eu.ngrok.io/api/v1/";
+
 			switch (this.state) {
 				case VpnTariffState.ExtendVpnSubscription:
-					this.switchPage(VpnTariffPage.AcceptVpnCard)
+					const subscription_id = params.get('subscription_id')
+					this.mainButtons.toPay.onclick = () => {
+						this.SubmitData();
+					}
+
+					VpnInProcess.apiRequest(`subscription/get-subscription-checkout/${subscription_id}`, (result) => {
+						this.selectedTariff.monthDuration = result.month_duration;
+						this.selectedTariff.price = result.price
+						this.selectedTariff.discount = result.discount
+						this.selectedTariff.currency = result.currency
+						this.selectedTariff.devicesNumber = result.devices_number
+						this.selectedTariff.monthLoc = result.month_loc
+						this.selectedTariff.devicesLoc = result.devices_loc
+						this.selectedTariff.subscriptionId = result.subscription_id
+						this.selectedTariff.freekassaUrl = result.freekassa_url
+
+						VpnInProcess.createPaymentSelection({
+							monthDuration: this.selectedTariff.monthDuration,
+							price: this.selectedTariff.price, 
+							discount: this.selectedTariff.discount, 
+							currency: this.selectedTariff.currency, 
+							devicesNumber: this.selectedTariff.devicesNumber,
+							monthLoc: this.selectedTariff.monthLoc,
+							devicesLoc: this.selectedTariff.devicesLoc
+						});
+
+						this.accessPayClick();
+						this.switchPage(VpnTariffPage.AcceptVpnCard)
+					})
 					break;
+					
 				case VpnTariffState.MakeAnOrder:
+					VpnInProcess.apiRequest('vpn-protocol', result => {
+						VpnInProcess.protocols = result
+						console.log(result)
+					})
+		
+					VpnInProcess.apiRequest('vpn-country', (result) => {
+						VpnInProcess.countries = result
+						console.log(result)
+					})
+		
+					VpnInProcess.apiRequest('vpn_device_tariff/tariffs-data', (results) => {
+						for (let i = 0; i < results.length; i++) {
+							let monthDuration = results[i].month_duration
+							if (!(monthDuration in VpnInProcess.groupedByMonthDuration)) {
+								VpnInProcess.groupedByMonthDuration[monthDuration] = []
+							}
+							VpnInProcess.groupedByMonthDuration[monthDuration].push({
+								tariff_id: results[i].tariff_id,
+								monthDuration: monthDuration,
+								devices_number: results[i].devices_number,
+								result_price: results[i].price,
+								currency: results[i].currency,
+								discount: results[i].discount,
+								monthLoc: results[i].month_loc,
+								devicesLoc: results[i].devices_loc
+							})
+						}
+						console.log(VpnInProcess.groupedByMonthDuration)
+						if (this.currentPage === VpnTariffPage.SelectTariffPage) {
+							this.createMonthDurationSpoilers();
+						}
+					})
+					this.addDevicesCheck();
 					this.switchPage(VpnTariffPage.SelectTariffPage)
 					break;
 				default:
 					throw 'Wrong statement'
 			}
-			if (this.currentPage === VpnTariffPage.SelectTariffPage) {
-				this.createMonthDurationSpoilers(this.groupedByMonthDuration);
-			}
 
 			this.controlsVpn();
-			this.addDevicesCheck();
+			// this.addDevicesCheck();
 
-			if (this.state === VpnTariffState.ExtendVpnSubscription) {
-				this.selectedTariff = ExtendVpnselectedTariff;
-				this.createPaymentSelection();
-				this.accessPayClick();
+			// if (this.state === VpnTariffState.ExtendVpnSubscription) {
+			// 	this.selectedTariff = ExtendVpnselectedTariff;
+			// 	this.createPaymentSelection();
+			// 	this.accessPayClick();
+			// }
+		},
+		callApi: async function(method, onCallback) {
+			await fetch(`${VpnInProcess.apiUrl}${method}`, {})
+					.then((response) => onCallback(response))
+		},
+		apiRequest: function (method, onCallback, type = "GET", data = null) {
+			var authData = Telegram.WebApp.initDataRaw || '';
+			let body = null;
+			if (data != null) {
+				body = $.extend(data, { _auth: authData })
 			}
+			$.ajax(`${VpnInProcess.apiUrl}${method}`, {
+				type: type || "GET",
+				// beforeSend: function(request) {
+				// 	request.setRequestHeader("Authorization", "");
+				//   },
+				data: body,
+				dataType: 'json',
+				xhrFields: {
+					withCredentials: true
+				},
+				success: function (result) {
+					onCallback && onCallback(result);
+				},
+				error: function (xhr) {
+					onCallback && onCallback({ error: 'Server error' });
+				}
+			});
 		},
 		switchPage(page) {
 			if (page === VpnTariffPage.SelectTariffPage) {
@@ -296,7 +236,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				this.deviceoptionValues.id = 1;
 				this.deviceoptionValues.nameAttr = 1;
 				this.deviceoptionValues.countryValue = 1;
-				this.devices = [];
+				VpnInProcess.devices = [];
 			}
 			this.countrols.devices.onclick = () => {
 				this.currentPage = VpnTariffPage.InputDevices;
@@ -329,11 +269,38 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 
 				// ======================
 				if (condition) {
-					this.currentPage = VpnTariffPage.AcceptVpnCard;
-					this.switchPage(VpnTariffPage.AcceptVpnCard);
-					this.createPaymentSelection();
-					this.accessPayClick();
-					this.fillDevices(deviceitems);
+					VpnInProcess.fillDevices(deviceitems);
+					console.log(`Devices: ${VpnInProcess.devices}`);
+
+					// VpnInProcess.currentPage = VpnTariffPage.AcceptVpnCard;
+					// VpnInProcess.switchPage(VpnTariffPage.AcceptVpnCard);
+					// VpnInProcess.createPaymentSelection();
+					// VpnInProcess.accessPayClick();
+					VpnInProcess.apiRequest('subscription/calculate-invoice', 
+						(result) => {
+							// VpnInProcess.subscription = result;
+							console.log(result);
+
+							VpnInProcess.currentPage = VpnTariffPage.AcceptVpnCard;
+							VpnInProcess.switchPage(VpnTariffPage.AcceptVpnCard);
+							VpnInProcess.createPaymentSelection({
+								monthDuration: this.selectedTariff.month_duration,
+								price: result.price, 
+								discount: result.discount, 
+								currency: 'RUB', 
+								devicesNumber: this.selectedTariff.devicesNumber,
+								monthLoc: this.selectedTariff.monthLoc,
+								devicesLoc: this.selectedTariff.devicesLoc
+							});
+							VpnInProcess.accessPayClick();
+						},
+						"POST",
+						{
+							user_id: 395040322,
+							tariff_id: VpnInProcess.selectedTariff.tariff_id,
+							devices: JSON.stringify(VpnInProcess.devices)
+						},
+					)
 				}
 			}
 			this.mainButtons.toPay.onclick = () => {
@@ -341,14 +308,13 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			}
 		},
 		//===========
-		createMonthDurationSpoilers(groupedByMonthDuration) {
-			const groupedBy = groupedByMonthDuration;
+		createMonthDurationSpoilers() {
 			const monthDurationSpoilerBlock = document.querySelector('[data-spoller-tariffs]');
 			monthDurationSpoilerBlock.innerHTML = '';
-			for (let i = 0; i < groupedBy.length; i++) {
+			let isFirstSpoilerActive = false;
+			for(var month_duration in VpnInProcess.groupedByMonthDuration) {
 
-				const monthDuration = groupedBy[i].month_duration;
-				const tariffs = groupedBy[i].tariffs;
+				const tariffs = VpnInProcess.groupedByMonthDuration[month_duration];
 
 				const monthDurationSpoiler = document.createElement("div");
 				monthDurationSpoiler.classList.add("spollers__item");
@@ -361,10 +327,11 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				monthDurationSpoilerBtn.classList.add("spollers__title");
 				monthDurationSpoilerBtn.classList.add("tariffs__title");
 				monthDurationSpoilerBtn.innerHTML = `
-					${monthDuration} месяцев
+					${month_duration} месяцев
 				`;
-				if (i === 0) {
+				if (!isFirstSpoilerActive) {
 					monthDurationSpoilerBtn.classList.add("_spoller-active");
+					isFirstSpoilerActive = true
 				}
 				monthDurationSpoiler.appendChild(monthDurationSpoilerBtn);
 
@@ -378,31 +345,44 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 				monthDurationSpoilerBody.appendChild(monthDurationSpoilerContainer);
 
 				for (let j = 0; j < tariffs.length; j++) {
-					const vpnTariff = this.createVPNTariff(tariffs[j].month_duration, tariffs[j].devices_number, tariffs[j].result_price, tariffs[j].currency, tariffs[j].discount)
+					const vpnTariff = this.createVPNTariff(
+						{
+							tariff_id: tariffs[j].tariff_id,
+							monthDuration: tariffs[j].monthDuration,
+							devicesNumber: tariffs[j].devices_number,
+							price: tariffs[j].result_price,
+							currency: tariffs[j].currency,
+							discount: tariffs[j].discount,
+							monthLoc: tariffs[j].monthLoc,
+							devicesLoc: tariffs[j].devicesLoc
+						})
 					monthDurationSpoilerContainer.appendChild(vpnTariff);
 				}
 			}
 			vpnFunctions.spollers();
 		},
-		createVPNTariff(monthDuration, devicesNumber, price, currency, discount) {
+		createVPNTariff({tariff_id, monthDuration, devicesNumber, price, currency, discount, monthLoc, devicesLoc}) {
 			const vpnTariff = document.createElement("div");
 			vpnTariff.classList.add("info-tariffs__item");
 			vpnTariff.innerHTML = `
 				<h2 class="mon-count">${monthDuration}</h2>
-				<h2 class="mon-text">месяцев</h2>
+				<h2 class="mon-text">${monthLoc}</h2>
 				<h2 class="subscription">подписки</h2>
-				<h3 class="devices-number"><span>${devicesNumber}</span> устройство</h3>
+				<h3 class="devices-number"><span>${devicesNumber}</span> ${devicesLoc}</h3>
 				<h3 class="price">${price} ${currency}</h3>
-				<span class="discount">${discount}%</span>
+				<span class="discount">-${discount}%</span>
 			`;
 
 			vpnTariff.addEventListener('click', (e) => {
 				this.selectedTariff = {
+					tariff_id: tariff_id,
 					month_duration: monthDuration,
 					price: price,
 					discount: discount,
 					currency: currency,
-					devicesNumber: devicesNumber
+					devicesNumber: devicesNumber,
+					monthLoc: monthLoc,
+					devicesLoc: devicesLoc
 				}
 
 				this.currentPage = VpnTariffPage.InputDevices;
@@ -440,8 +420,8 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			}
 			for (let i = 0; i < spolierCounter; i++) {
 				this.devices.push({
-					country: '',
-					protocol: ''
+					country_id: '',
+					protocol_id: ''
 				})
 
 				const deviceEl = document.createElement('div')
@@ -508,26 +488,28 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			}
 		},
 		createDeviceContries(dropdown, elemButton, index, deviceIndex) {
-			const country = this.countries[index].country;
+			const country = this.countries[index];
 			const devicesDropdownItem = document.createElement("li");
 			devicesDropdownItem.classList.add("devices__dropdown-item");
-			devicesDropdownItem.setAttribute('country', `${this.deviceoptionValues.countryValue}`);
-			devicesDropdownItem.innerHTML = `${country}`;
+			devicesDropdownItem.setAttribute(DeviceAttribute.Country, country.pkid);
+			devicesDropdownItem.innerHTML = `${country.country}`;
 
 			devicesDropdownItem.onclick = (e) => {
 				elemButton.innerHTML = `${devicesDropdownItem.innerText}`;
 				dropdown.classList.toggle('closed');
 
 				dropdown.querySelector('.devices__dropdown-title').setAttribute('value', elemButton.innerHTML)
+				dropdown.querySelector('.devices__dropdown-title').setAttribute(DeviceAttribute.Country, country.pkid)
 
-				//this.devices[deviceIndex].country = elemButton.innerHTML;
+				// console.log(e.currentTarget.getAttribute('country'));
+				// this.devices[deviceIndex].country = elemButton.attributes['country'];
 				//console.log(this.devices[deviceIndex].country);
 			}
 			this.deviceoptionValues.countryValue++;
 			return devicesDropdownItem;
 		},
 		createDeviceProtocols(DeviceSpollerIndex, DeviceProtocolIndex) {
-			const protocol = this.protocols[DeviceProtocolIndex].protocol;
+			const protocol = this.protocols[DeviceProtocolIndex];
 
 			const optionProtocol = document.createElement("div");
 			optionProtocol.classList.add('options__item');
@@ -535,7 +517,7 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			optionProtocol.innerHTML = `
 				<input hidden id="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__input" type="radio" value="r_${DeviceProtocolIndex}_1" name="option${this.deviceoptionValues.nameAttr}">
 				<label for="o_${this.deviceoptionValues.nameAttr}_${this.deviceoptionValues.id}" class="options__label">
-					<span class="options__text">${protocol}</span>
+					<span ${DeviceAttribute.Protocol}="${protocol.pkid}" class="options__text">${protocol.protocol}</span>
 				</label>
 			`;
 
@@ -543,23 +525,17 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			return optionProtocol;
 		},
 		//===========
-		createPaymentSelection() {
-			const month_duration = this.selectedTariff.month_duration;
-			const price = this.selectedTariff.price;
-			const discount = this.selectedTariff.discount;
-			const currency = this.selectedTariff.currency;
-			const devicesNumber = this.devices.length;
-
+		createPaymentSelection({ monthDuration, price, discount, currency, devicesNumber, monthLoc, devicesLoc }) {
 			const PaymentSelectionContainer = document.querySelector('.payment__info-content');
-			document.querySelector('.payment__title').innerHTML = `Доступ к VPN на ${month_duration} месяцев.`;
+			document.querySelector('.payment__title').innerHTML = `Доступ к VPN на ${monthDuration} ${monthLoc}.`;
 			PaymentSelectionContainer.innerHTML = `
 				<div class="payment__info">
 					<div class="payment__currency">
 						<div class="payment__initial">${price} ${currency}</div>
 					</div>
-					<div class="payment__mon">${month_duration} месяцев</div>
-					<div class="payment__devices">${devicesNumber} устройств</div>
-					<span class="discount">${discount}%</span>
+					<div class="payment__mon">${monthDuration} ${monthLoc}</div>
+					<div class="payment__devices">${devicesNumber} ${devicesLoc}</div>
+					<span class="discount">-${discount}%</span>
 				</div>
 			`;
 		},
@@ -592,39 +568,47 @@ export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, P
 			});
 		},
 		addDevices() {
-
 			this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true);
 
 		},
 		fillDevices(deviceitems) {
-
 			for (let i = 0; i < deviceitems.length; i++) {
-				const country = deviceitems[i].querySelector('.devices__dropdown-title').getAttribute('value')
+				const country_id = deviceitems[i].querySelector('.devices__dropdown-title').getAttribute(DeviceAttribute.Country)
 				const optItems = deviceitems[i].querySelectorAll('.options__item')
 
 				for (let j = 0; j < optItems.length; j++) {
 					const optItem = optItems[j];
 
 					if (optItem.querySelector('.options__input').checked) {
-
-						this.devices[i].protocol = optItem.querySelector('.options__text').innerHTML;
+						let protocolTextEl = optItem.querySelector('.options__text')
+						VpnInProcess.devices[i].protocol_id = protocolTextEl.getAttribute(DeviceAttribute.Protocol);
 					}
 				}
-				this.devices[i].country = country;
-
+				VpnInProcess.devices[i].country_id = country_id;
 			}
-
 		},
 		SubmitData() {
-			// ============================= this.devices
-			// 	fetch("handler.php", {
-			// 		method: "POST",
-			// 		body: data
-			//   }).then(function (response) {
-			// 		...
-			//   }).catch(function (error) {
-			// 		...
-			//   });
+			console.log(this.state)
+			switch(this.state) {
+				case VpnTariffState.ExtendVpnSubscription: 
+					location.href = this.selectedTariff.freekassaUrl;
+					break;
+
+				case VpnTariffState.MakeAnOrder:
+					VpnInProcess.apiRequest('subscription/create-subscription', 
+					(result) => {
+						location.href = result;
+					},
+					'POST',
+					{
+						user_id: Telegram.WebApp.initDataUnsafe.user.id,
+						tariff_id: VpnInProcess.selectedTariff.tariff_id,
+						devices: JSON.stringify(VpnInProcess.devices)
+					},
+				)
+			}
+			this.state
+			console.log(Telegram.WebApp.initDataUnsafe)
 		}
 	}
 
