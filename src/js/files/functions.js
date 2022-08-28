@@ -1,5 +1,3 @@
-
-// Добавление loaded для HTML после полной загрузки страницы
 export function addLoadedClass() {
 	window.addEventListener("load", function () {
 		setTimeout(function () {
@@ -7,7 +5,7 @@ export function addLoadedClass() {
 		}, 500);
 	});
 }
-// Вспомогательные модули плавного расскрытия и закрытия объекта ======================================================================================================================================================================
+
 export let _slideUp = (target, duration = 500, showmore = 0) => {
 	if (!target.classList.contains('_slide')) {
 		target.classList.add('_slide');
@@ -41,6 +39,7 @@ export let _slideUp = (target, duration = 500, showmore = 0) => {
 		}, duration);
 	}
 }
+
 export let _slideDown = (target, duration = 500, showmore = 0) => {
 	if (!target.classList.contains('_slide')) {
 		target.classList.add('_slide');
@@ -76,6 +75,7 @@ export let _slideDown = (target, duration = 500, showmore = 0) => {
 		}, duration);
 	}
 }
+
 export let _slideToggle = (target, duration = 500) => {
 	if (target.hidden) {
 		return _slideDown(target, duration);
@@ -83,7 +83,7 @@ export let _slideToggle = (target, duration = 500) => {
 		return _slideUp(target, duration);
 	}
 }
-// Модуль работы со спойлерами =======================================================================================================================================================================================================================
+
 export function spollers() {
 	const spollersArray = document.querySelectorAll('[data-spollers]');
 	if (spollersArray.length > 0) {

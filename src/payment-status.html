@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone=no">
+	<script src="https://telegram.org/js/telegram-web-app.js"></script>
+	<title>Payment status</title>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.min.css">
+	<!-- <meta name="robots" content="noindex, nofollow"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="page-status success"></div>
+	</div>
+	<div class="preloader">
+		<div class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<script>
+		window.addEventListener("load", function () {
+			setTimeout(function () {
+				document.documentElement.classList.add('loaded');
+			}, 500);
+		});
+		
+		window.Telegram.WebApp.ready();
+		window.Telegram.WebApp.expand();
+
+		let paymentStatus = false; // true / false
+
+		const contentBlock = document.querySelector('.page-status');
+
+		if (paymentStatus) {
+			contentBlock.innerHTML = `
+				<div class="page-status__block success">
+					<div class="page-status__icon success">
+						<span class="_icon-check"></span>
+					</div>
+					<h1 class="page-status__text">Оплата прошла успешно</h1>
+				</div>
+				<button data-close-web-app class="page-status__btn success">Ок</button>
+			`;
+		} else {
+			contentBlock.innerHTML = `
+				<div class="page-status__block error">
+					<div class="page-status__icon">
+						<span class="_icon-close"></span>
+					</div>
+					<h1 class="page-status__text">Оплата не была произведена</h1>
+				</div>
+				<button data-close-web-app class="page-status__btn error">Ок</button>
+			`;
+		}
+
+		const closeWebAppBtn = document.querySelector('[data-close-web-app]');
+		closeWebAppBtn.onclick = () => {
+			window.Telegram.WebApp.close();
+		}
+	</script>
+</body>

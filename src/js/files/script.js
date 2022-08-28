@@ -8,8 +8,168 @@ import * as vpnFunctions from "./functions.js";
 vpnFunctions.addLoadedClass();
 vpnFunctions.spollers();
 
-export const startVpnWebApp = () => { 
+export const startVpnWebApp = () => { // GROUPED_BY_MONTH_DURATION, COUNTRIES, PROTOCOLS
+	const GROUPED_BY_MONTH_DURATION = [
+		{
+			month_duration: 12,
+			tariffs: [
+				{
+					month_duration: 12,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 12,
+					devices_number: 2,
+					result_price: 2000,
+					currency: "RUB",
+					discount: 20
+				},
+			]
+		},
+		{
+			month_duration: 6,
+			tariffs: [
+				{
+					month_duration: 6,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 2,
+					result_price: 1700,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 3,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 20
+				},
+				{
+					month_duration: 6,
+					devices_number: 4,
+					result_price: 2500,
+					currency: "RUB",
+					discount: 20
+				},
+			]
+		},
+		{
+			month_duration: 3,
+			tariffs: [
+				{
+					month_duration: 3,
+					devices_number: 1,
+					result_price: 1500,
+					currency: "RUB",
+					discount: 43
+				},
+				{
+					month_duration: 3,
+					devices_number: 2,
+					result_price: 2020,
+					currency: "RUB",
+					discount: 23
+				},
+				{
+					month_duration: 3,
+					devices_number: 3,
+					result_price: 2489,
+					currency: "RUB",
+					discount: 10
+				},
+				{
+					month_duration: 3,
+					devices_number: 4,
+					result_price: 3000,
+					currency: "RUB",
+					discount: 73
+				},
+				{
+					month_duration: 3,
+					devices_number: 5,
+					result_price: 3500,
+					currency: "RUB",
+					discount: 73
+				},
+			]
+		},
+	];
+	const COUNTRIES = [
+		{
+			country: 'Belarus',
+			id: 'BY',
+			discount: 0
+		},
+		{
+			country: 'Norway',
+			id: 'NW',
+			discount: 56
+		},
+		{
+			country: 'Germany',
+			id: 'GR',
+			discount: 23
+		},
+		{
+			country: 'Russia',
+			id: 'RU',
+			discount: 7
+		},
+		{
+			country: 'USA',
+			id: 'US',
+			discount: 20
+		},
+		{
+			country: 'Belarus',
+			id: 'BY',
+			discount: 0
+		},
+		{
+			country: 'Norway',
+			id: 'NW',
+			discount: 56
+		},
+		{
+			country: 'Germany',
+			id: 'GR',
+			discount: 23
+		},
+		{
+			country: 'Russia',
+			id: 'RU',
+			discount: 7
+		},
+		{
+			country: 'USA',
+			id: 'US',
+			discount: 20
+		},
+	];
+	const PROTOCOLS = [
+		{
+			protocol: "Wiregurad",
+			id: 4
+		},
+		{
+			protocol: "OpenVpn",
+			id: 5
+		},
+	];
+
+
+
 	const ExtendVpnselectedTariff = {
+		subscription_id: 123123,
 		month_duration: 12,
 		price: 2000,
 		discount: 20,
@@ -91,9 +251,9 @@ const VpnInProcess = {
 
 						VpnInProcess.createPaymentSelection({
 							monthDuration: this.selectedTariff.monthDuration,
-							price: this.selectedTariff.price, 
-							discount: this.selectedTariff.discount, 
-							currency: this.selectedTariff.currency, 
+							price: this.selectedTariff.price,
+							discount: this.selectedTariff.discount,
+							currency: this.selectedTariff.currency,
 							devicesNumber: this.selectedTariff.devicesNumber,
 							monthLoc: this.selectedTariff.monthLoc,
 							devicesLoc: this.selectedTariff.devicesLoc
@@ -103,18 +263,18 @@ const VpnInProcess = {
 						this.switchPage(VpnTariffPage.AcceptVpnCard)
 					})
 					break;
-					
+
 				case VpnTariffState.MakeAnOrder:
 					VpnInProcess.apiRequest('vpn-protocol', result => {
 						VpnInProcess.protocols = result
 						console.log(result)
 					})
-		
+
 					VpnInProcess.apiRequest('vpn-country', (result) => {
 						VpnInProcess.countries = result
 						console.log(result)
 					})
-		
+
 					VpnInProcess.apiRequest('vpn_device_tariff/tariffs-data', (results) => {
 						for (let i = 0; i < results.length; i++) {
 							let monthDuration = results[i].month_duration
@@ -220,7 +380,7 @@ const VpnInProcess = {
 				this.mainButtons.toCheckout.classList.add('hidden');
 				this.mainButtons.toPay.classList.remove('hidden');
 			}
-			// =================================
+
 			if (this.state === VpnTariffState.ExtendVpnSubscription) {
 				this.countrols.tariffs.classList.add('hidden');
 				this.countrols.devices.classList.add('hidden');
@@ -254,18 +414,15 @@ const VpnInProcess = {
 
 				let condition = true;
 
-				function validationCountry() {
-					deviceitems.forEach((device, i) => {
-						if (!device.querySelector('.devices__dropdown-title').getAttribute('value')) {
-							condition = false;
-							device.classList.add('empty');
-						}
-						else {
-							device.classList.remove('empty');
-						}
-					});
-				}
-				validationCountry();
+				deviceitems.forEach((device, i) => {
+					if (!device.querySelector('.devices__dropdown-title').getAttribute('value')) {
+						condition = false;
+						device.classList.add('empty');
+					}
+					else {
+						device.classList.remove('empty');
+					}
+				});
 
 				// ======================
 				if (condition) {
@@ -276,7 +433,7 @@ const VpnInProcess = {
 					// VpnInProcess.switchPage(VpnTariffPage.AcceptVpnCard);
 					// VpnInProcess.createPaymentSelection();
 					// VpnInProcess.accessPayClick();
-					VpnInProcess.apiRequest('subscription/calculate-invoice', 
+					VpnInProcess.apiRequest('subscription/calculate-invoice',
 						(result) => {
 							// VpnInProcess.subscription = result;
 							console.log(result);
@@ -285,9 +442,9 @@ const VpnInProcess = {
 							VpnInProcess.switchPage(VpnTariffPage.AcceptVpnCard);
 							VpnInProcess.createPaymentSelection({
 								monthDuration: this.selectedTariff.month_duration,
-								price: result.price, 
-								discount: result.discount, 
-								currency: 'RUB', 
+								price: result.price,
+								discount: result.discount,
+								currency: 'RUB',
 								devicesNumber: this.selectedTariff.devicesNumber,
 								monthLoc: this.selectedTariff.monthLoc,
 								devicesLoc: this.selectedTariff.devicesLoc
@@ -568,10 +725,12 @@ const VpnInProcess = {
 			});
 		},
 		addDevices() {
+
 			this.createDeviceSpollers(this.selectedTariff, document.querySelector('[data-spoller-devices]'), true);
 
 		},
 		fillDevices(deviceitems) {
+
 			for (let i = 0; i < deviceitems.length; i++) {
 				const country_id = deviceitems[i].querySelector('.devices__dropdown-title').getAttribute(DeviceAttribute.Country)
 				const optItems = deviceitems[i].querySelectorAll('.options__item')
@@ -586,16 +745,17 @@ const VpnInProcess = {
 				}
 				VpnInProcess.devices[i].country_id = country_id;
 			}
+
 		},
 		SubmitData() {
 			console.log(this.state)
 			switch(this.state) {
-				case VpnTariffState.ExtendVpnSubscription: 
+				case VpnTariffState.ExtendVpnSubscription:
 					location.href = this.selectedTariff.freekassaUrl;
 					break;
 
 				case VpnTariffState.MakeAnOrder:
-					VpnInProcess.apiRequest('subscription/create-subscription', 
+					VpnInProcess.apiRequest('subscription/create-subscription',
 					(result) => {
 						location.href = result;
 					},

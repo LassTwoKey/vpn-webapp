@@ -14,6 +14,9 @@
 		display: block;
 	}
 }
-._icon-check:before {
+._icon-close:before {
 	content: "\e900";
-}
+ }
+ ._icon-check:before {
+	content: "\e901";
+ }

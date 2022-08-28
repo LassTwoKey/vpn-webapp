@@ -1,0 +1,86 @@
+.page-status {
+	padding-top: 150px;
+	padding-bottom: 50px;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+	text-align: center;
+	@media (max-height: em(660)){
+		padding-top: 40px;
+	}
+	&__block {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	&__icon {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		color: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		._icon-check,._icon-close {
+			display: none;
+		}
+		.success & {
+			background-color: $payBtn;
+			._icon-check {
+				display: block;
+				font-size: 60px;
+			}
+		}
+		.error & {
+			background-color: $mainBackground;
+			._icon-close {
+				display: block;
+				font-size: 95px;
+			}
+		}
+		margin-bottom: 70px;
+		@media (max-height: em(660)){
+			margin-bottom: 50px;
+		}
+	}
+	&__text{
+		font-size: 2.25rem;
+		margin-bottom: 70px;
+		padding: 0 10px;
+		@media (max-height: em(660)){
+			margin-bottom: 50px;
+		}
+	}
+	&__btn {
+		padding: 10px 20px;
+		width: 200px;
+		border-radius: 30px;
+		cursor: default;
+		user-select: none;
+		font-size: rem(20);
+		@media (any-hover: hover){
+			cursor: pointer;
+		}
+		transition: 0.2s ease;
+
+		&.success {
+			color: $payBtn;
+			border: 2px solid $payBtn;
+			&:hover {
+				color: #fff;
+				background-color: $payBtn;
+			}
+		}
+		&.error  {
+			color: $mainBackground;
+			color: #fff;
+			border: 2px solid $mainBackground;
+			&:hover {
+				color: #fff;
+				background-color: $mainBackground;
+			}
+		}
+	}
+}
