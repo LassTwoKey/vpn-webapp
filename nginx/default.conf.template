@@ -10,10 +10,10 @@ server {
     location /success {
         rewrite ^.*$ /dist/success.html break;
     }
-    location = /webapp/app.js {
+    location = /app.js {
         alias /srv/dist/app.js;
     }
-    location = /webapp/style.css {
+    location = /style.css {
         alias /srv/dist/style.css;
     }
 }

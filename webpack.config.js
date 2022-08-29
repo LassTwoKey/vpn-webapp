@@ -5,14 +5,14 @@ const Dotenv = require('dotenv-webpack');
 const pages = ["index", "error", "success"];
 var webpack = require("webpack");
 
-module.exports = {
-  entry: 'index.js',
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle.js',
-  },
-  plugins: [new HtmlWebpackPlugin()],
-};
+// module.exports = {
+//   entry: 'index.js',
+//   output: {
+//     path: path.resolve(__dirname, './dist'),
+//     filename: 'index_bundle.js',
+//   },
+//   plugins: [new HtmlWebpackPlugin()],
+// };
 
 
 module.exports = (env, argv) => ({
@@ -29,28 +29,24 @@ module.exports = (env, argv) => ({
     new miniCss({
       filename: 'style.css'
     }),
-    new Dotenv({
-      path: '.env'
-    }),
+    new Dotenv(),
     // new HtmlWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      // inject: true,
-      template: path.resolve(__dirname, `./src/index.html`),
-      // filename: `index.html`,
-      // chunks: ['index'],
-    })
-  ],
-  // .concat(
-  //   pages.map(
-  //     (page) =>
-  //       new HtmlWebpackPlugin({
-  //         inject: true,
-  //         template: path.resolve(__dirname, `./src/${page}.html`),
-  //         filename: `${page}.html`,
-  //         chunks: [page],
-  //       })
-  //   )
-  // ),
+    // new HtmlWebpackPlugin({
+    //   // inject: true,
+    //   template: path.resolve(__dirname, `./src/index.html`),
+    //   // filename: `index.html`,
+    //   // chunks: ['index'],
+    // })
+  ]
+  .concat(
+    pages.map(
+      (page) =>
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, `./src/${page}.html`),
+          filename: `${page}.html`
+        })
+    )
+  ),
   module: {
     rules: [
       {

@@ -26,6 +26,7 @@
 		"webpack-dev-server": "^4.10.1"
 	},
 	"dependencies": {
+		"dotenv": "^16.0.1",
 		"jquery": "^3.6.1",
 		"saas": "^1.0.0",
 		"sass": "^1.54.5",

@@ -59,9 +59,9 @@ const VpnInProcess = {
 
 
 		init() {
-			console.log(process.env)
 			const params = new URLSearchParams(window.location.search)
 			this.state = params.get('state')
+			
 			VpnInProcess.apiUrl = urlJoin(process.env.VPN_REST_HTTPS, 'api/v1/');
 
 			switch (this.state) {
@@ -158,8 +158,8 @@ const VpnInProcess = {
 			}
 
 			let endpoint = urlJoin(VpnInProcess.apiUrl, method);
-			console.log(endpoint.href)
-			$.ajax(endpoint.href, {
+			console.log(endpoint)
+			$.ajax(endpoint, {
 				type: type || "GET",
 				// beforeSend: function(request) {
 				// 	request.setRequestHeader("Authorization", "");
