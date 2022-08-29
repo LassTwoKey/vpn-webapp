@@ -1,4 +1,5 @@
 import * as vpnFunctions from "./functions.js";
+import urlJoin from 'url-join';
 
 (function ($) {
 	$.fn.redraw = function () {
@@ -58,9 +59,10 @@ const VpnInProcess = {
 
 
 		init() {
+			console.log(process.env)
 			const params = new URLSearchParams(window.location.search)
 			this.state = params.get('state')
-			VpnInProcess.apiUrl = process.env.VPN_REST_HTTPS;
+			VpnInProcess.apiUrl = urlJoin(process.env.VPN_REST_HTTPS, 'api/v1/');
 
 			switch (this.state) {
 				case VpnTariffState.ExtendVpnSubscription:
@@ -154,7 +156,10 @@ const VpnInProcess = {
 			if (data != null) {
 				body = $.extend(data, { _auth: authData })
 			}
-			$.ajax(`${VpnInProcess.apiUrl}${method}`, {
+
+			let endpoint = urlJoin(VpnInProcess.apiUrl, method);
+			console.log(endpoint.href)
+			$.ajax(endpoint.href, {
 				type: type || "GET",
 				// beforeSend: function(request) {
 				// 	request.setRequestHeader("Authorization", "");
@@ -168,6 +173,7 @@ const VpnInProcess = {
 					onCallback && onCallback(result);
 				},
 				error: function (xhr) {
+					console.log(xhr)
 					onCallback && onCallback({ error: 'Server error' });
 				}
 			});
@@ -295,7 +301,6 @@ const VpnInProcess = {
 				this.SubmitData();
 			}
 		},
-		//===========
 		createMonthDurationSpoilers() {
 			const monthDurationSpoilerBlock = document.querySelector('[data-spoller-tariffs]');
 			monthDurationSpoilerBlock.innerHTML = '';

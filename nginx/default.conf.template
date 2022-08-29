@@ -2,15 +2,18 @@ server {
     listen 80;
     root /srv;
     location / {
-        rewrite ^.*$ /index.html break;
+        rewrite ^.*$ /dist/index.html?state=MakeAnOrder break;
     }
     location /error {
-        rewrite ^.*$ /error.html break;
+        rewrite ^.*$ /dist/error.html break;
     }
     location /success {
-        rewrite ^.*$ /success.html break;
+        rewrite ^.*$ /dist/success.html break;
     }
-    location = /management/management.js {
-        alias /srv/dist/management.js;
+    location = /webapp/app.js {
+        alias /srv/dist/app.js;
+    }
+    location = /webapp/style.css {
+        alias /srv/dist/style.css;
     }
 }
