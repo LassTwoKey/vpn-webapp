@@ -98,12 +98,12 @@ const VpnInProcess = {
 					break;
 
 				case VpnTariffState.MakeAnOrder:
-					VpnInProcess.apiRequest('vpn-protocol', result => {
+					VpnInProcess.apiRequest('vpn-protocol/', result => {
 						VpnInProcess.protocols = result
 						console.log(result)
 					})
 
-					VpnInProcess.apiRequest('vpn-country', (result) => {
+					VpnInProcess.apiRequest('vpn-country/', (result) => {
 						VpnInProcess.countries = result
 						console.log(result)
 					})
@@ -156,19 +156,21 @@ const VpnInProcess = {
 			if (data != null) {
 				body = $.extend(data, { _auth: authData })
 			}
+			// const authToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODQxNzQ1ODI0LCJqdGkiOiI0OWRmMjM2YTI5OTE0NzM5OWVlMzA0ZWU5OWM4MDRlNSIsInVzZXJfaWQiOjF9.A2tHALdd9ZXxCYMFK2SN1q5tFxJzqCmmVEAxOFUGSh4";
 
 			let endpoint = urlJoin(VpnInProcess.apiUrl, method);
 			console.log(endpoint)
 			$.ajax(endpoint, {
 				type: type || "GET",
 				// beforeSend: function(request) {
-				// 	request.setRequestHeader("Authorization", "");
+				// 	request.setRequestHeader("Authorization", authToken);
 				//   },
 				data: body,
-				dataType: 'json',
-				xhrFields: {
-					withCredentials: true
-				},
+				dataType : 'json',  
+  				crossDomain:true,
+				// xhrFields: {
+				// 	withCredentials: true
+				// },
 				success: function (result) {
 					onCallback && onCallback(result);
 				},
@@ -270,7 +272,7 @@ const VpnInProcess = {
 					// VpnInProcess.switchPage(VpnTariffPage.AcceptVpnCard);
 					// VpnInProcess.createPaymentSelection();
 					// VpnInProcess.accessPayClick();
-					VpnInProcess.apiRequest('subscription/calculate-invoice',
+					VpnInProcess.apiRequest('subscription/calculate-invoice/',
 						(result) => {
 							// VpnInProcess.subscription = result;
 							console.log(result);
@@ -591,7 +593,7 @@ const VpnInProcess = {
 					break;
 
 				case VpnTariffState.MakeAnOrder:
-					VpnInProcess.apiRequest('subscription/create-subscription',
+					VpnInProcess.apiRequest('subscription/create-subscription/',
 					(result) => {
 						location.href = result;
 					},
