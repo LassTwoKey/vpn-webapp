@@ -63,7 +63,7 @@
 		background: rgba($mainColor, 0.1);
 		border-radius: rem(5);
 		&.empty {
-			box-shadow: 0 0 4px $mainBackground;
+			box-shadow: 0 0 4px $additionMainBackground;
 		}
 	}
 	&__options {

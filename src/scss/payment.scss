@@ -33,7 +33,7 @@
 		margin-bottom: rem(30);
 	}
 	&__initial {
-		color: $selectBackground;
+		color: rgba($mainColor, 0.7);
 	}
 	&__decided {
 		color: $mainColor;
